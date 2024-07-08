@@ -4,7 +4,7 @@
   "description": "내전을 위한 디스코드 봇",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx src/index.ts",
     "build": "tsx src/index.ts",
     "start": "node dist/index.js"
   },
