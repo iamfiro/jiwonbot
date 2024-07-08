@@ -4,8 +4,8 @@ import Logger from "./lib/logger";
 import { client, rest } from './lib/bot';
 import { ModalHandlerListType } from './types/interactionEvent';
 import ping from './commands/ping';
-import randomMap from './commands/randomMap';
-import coinFlip from './commands/coinFlip';
+import randomMap from './commands/game/randomMap';
+import coinFlip from './commands/minigame/coinFlip';
 
 // Logger instance 생성
 const logger = new Logger();

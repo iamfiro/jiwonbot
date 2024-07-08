@@ -1,8 +1,8 @@
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, AttachmentBuilder } from "discord.js";
-import SupportGameList from "../constant/game";
-import SupportMapList from "../constant/map";
+import SupportGameList from "../../constant/game";
+import SupportMapList from "../../constant/map";
 import path from "path";
-import { getRandomElement } from "../lib/getRandomElement";
+import { getRandomElement } from "../../lib/getRandomElement";
 
 /**
  * Handles the interaction for selecting a random map.
