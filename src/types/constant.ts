@@ -8,8 +8,8 @@ export interface SupportGameList {
     value: SupportGame;
 }
 
-export interface SupportMapList extends SupportGameList {
+export interface SupportMapList {
+    name: string;
+    value: string;
     game: SupportGame;
-    banner: string;
-    img: string;
 }
