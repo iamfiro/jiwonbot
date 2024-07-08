@@ -1,9 +1,10 @@
 import 'dotenv/config';
-import { ButtonInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, ModalSubmitInteraction, Routes } from 'discord.js';
+import { AutocompleteInteraction, ButtonInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, ModalSubmitInteraction, Routes } from 'discord.js';
 import Logger from "./lib/logger";
 import { client, rest } from './lib/bot';
 import { ModalHandlerListType } from './types/interactionEvent';
 import ping from './commands/ping';
+import randomMap from './commands/randomMap';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -26,6 +27,7 @@ async function registerCommands() {
             body: [
                 // Slash Command
                 ping.info.toJSON(),
+                randomMap.info.toJSON(),
             ]
         });
 
@@ -45,8 +47,8 @@ client.on('ready', registerCommands);
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isChatInputCommand()) {
         handleChatInputCommand(interaction);
-    } else if (interaction.isContextMenuCommand()) {
-        handleContextMenuCommand(interaction);
+    } else if (interaction.isAutocomplete()) {
+        handleAutoComplete(interaction);
     } else if (interaction.isModalSubmit()) {
         handleModalSubmit(interaction);
     } else if(interaction.isButton()) {
@@ -63,6 +65,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
         case 'ping':
             ping.handler(interaction);
             break;
+        case '랜덤맵':
+            randomMap.handler(interaction);
+            break;
     }
 };
 
@@ -76,10 +81,10 @@ const handleButton = (interaction: ButtonInteraction) => {
 }
 
 /**
- * 컨텍스트 메뉴 명령어 처리 함수
+ * Auto Complete 처리 함수
  * @param {Interaction} interaction - Discord 상호작용 객체
  */
-const handleContextMenuCommand = (interaction: ContextMenuCommandInteraction) => {
+const handleAutoComplete = (interaction: AutocompleteInteraction) => {
     switch (interaction.commandName) {
     }
 };
