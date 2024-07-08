@@ -5,6 +5,7 @@ import { client, rest } from './lib/bot';
 import { ModalHandlerListType } from './types/interactionEvent';
 import ping from './commands/ping';
 import randomMap from './commands/randomMap';
+import coinFlip from './commands/coinFlip';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -28,6 +29,7 @@ async function registerCommands() {
                 // Slash Command
                 ping.info.toJSON(),
                 randomMap.info.toJSON(),
+                coinFlip.info.toJSON(),
             ]
         });
 
@@ -67,6 +69,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
             break;
         case '랜덤맵':
             randomMap.handler(interaction);
+            break;
+        case '동전던지기':
+            coinFlip.handler(interaction);
             break;
     }
 };
