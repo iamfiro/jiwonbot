@@ -1,10 +1,10 @@
 import { SupportGame, SupportGameList } from "../types/constant";
 
-const SupportGames: SupportGameList[] = [
+const SupportGameList: SupportGameList[] = [
     {
-        name: '발로란트',
+        name: '🔫 발로란트',
         value: SupportGame.Valorant
     }
 ]
 
-export default SupportGames;
+export default SupportGameList;
