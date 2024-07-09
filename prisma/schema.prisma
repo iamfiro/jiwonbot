@@ -19,7 +19,7 @@ enum GameList {
 }
 
 model Tier {
-  id          String   @id @default(cuid())
+  id          String   @id @default(uuid())
   userId      String
   tier        String
   game        GameList
