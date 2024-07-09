@@ -10,6 +10,7 @@ import teamBalance from './commands/game/teamBalance';
 import registerTier from './commands/db/registerTier';
 import { handleVoiceStateUpdate } from './events/voiceStateUpdate';
 import registerSeparateVoiceChannel from './commands/db/registerSeparateVoiceChannel';
+import poll from './commands/poll';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -37,6 +38,7 @@ async function registerCommands(): Promise<void> {
                 teamBalance.info.toJSON(),
                 registerTier.info.toJSON(),
                 registerSeparateVoiceChannel.info.toJSON(),
+                poll.info.toJSON(),
             ]
         });
 
@@ -92,6 +94,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
             break;
         case '배정채널등록':
             registerSeparateVoiceChannel.handler(interaction);
+            break;
+        case '투표':
+            poll.handler(interaction);
             break;
     }
 };
