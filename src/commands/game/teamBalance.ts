@@ -44,7 +44,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
 export default {
     info: new SlashCommandBuilder()
         .setName("밸런스")
-        .setDescription("[ 👾 ] 음성 채팅방에 들어가 있는 사람들로 밸런스를 조정합니다")
+        .setDescription("음성 채팅방에 들어가 있는 사람들로 밸런스를 조정합니다")
         .addStringOption(option =>
             option
                 .setName("게임")
