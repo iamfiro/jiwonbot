@@ -14,15 +14,13 @@ export interface SupportMapList {
     game: SupportGame;
 }
 
-export interface TierList {
-    valorant: {
-        name: string;
-        value: string;
-        weight: number;
-    },
-    lol: {
-        name: string;
-        value: string;
-        weight: number;
-    }
+interface Tier {
+    label: string;
+    value: string;
+    weight: number;
+    emoji: string;
 }
+
+export type TierList = {
+    [key in SupportGame]: Tier[];
+};
