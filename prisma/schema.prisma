@@ -12,3 +12,15 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum GameList {
+  Valorant
+  LeagueOfLegends
+}
+
+model Tier {
+  id          String   @id @default(cuid())
+  userId      String
+  tier        String
+  game        GameList
+}
