@@ -8,6 +8,7 @@ import randomMap from './commands/game/randomMap';
 import coinFlip from './commands/minigame/coinFlip';
 import teamBalance from './commands/game/teamBalance';
 import registerTier from './commands/db/registerTier';
+import { handleVoiceStateUpdate } from './events/voiceStateUpdate';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -15,7 +16,7 @@ const logger = new Logger();
 /**
  * Register all commands and context menus with Discord API
  */
-async function registerCommands() {
+async function registerCommands(): Promise<void> {
     if (!client.user) return;
 
     logger.info(`Registering commands...`);
@@ -45,7 +46,11 @@ async function registerCommands() {
     logger.info(`Logged in as ${client.user.tag}!`);
 }
 
-client.on('ready', registerCommands);
+client.on('ready', () => {
+    registerCommands().then(() => {
+        handleVoiceStateUpdate(client);
+    })
+});
 
 /**
  * interactionCreate 이벤트 핸들러
