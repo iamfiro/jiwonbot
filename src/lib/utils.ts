@@ -1,4 +1,6 @@
 import { GuildMember, ChatInputCommandInteraction } from "discord.js";
+import redis from "./redis";
+import { client } from "./bot";
 
 /**
  * Retrieves the members in the voice channel of the interaction user.
@@ -6,11 +8,23 @@ import { GuildMember, ChatInputCommandInteraction } from "discord.js";
  * @param {ChatInputCommandInteraction} interaction - The interaction object from Discord.
  * @returns {Array<GuildMember>} The list of members in the voice channel.
  */
-export function getVoiceChannelMembers(interaction: ChatInputCommandInteraction): GuildMember[] {
+export async function getVoiceChannelMembers(interaction: ChatInputCommandInteraction): Promise<GuildMember[]> {
     const member = interaction.member as GuildMember;
-    const voiceChannel = member.voice.channel;
-    if (!voiceChannel) return [];
-    return Array.from(voiceChannel.members.values());
+    const voiceChannelID = member.voice.channel?.id;
+
+    if (!voiceChannelID) return [];
+
+    const memberIDs = await redis.smembers(`voiceChannel:${voiceChannelID}`);
+    const members: GuildMember[] = [];
+
+    for (const id of memberIDs) {
+        const guildMember = await client.guilds.cache.get(interaction.guildId!)?.members.fetch(id);
+        if (guildMember) {
+            members.push(guildMember);
+        }
+    }
+
+    return members;
 }
 
 /**
