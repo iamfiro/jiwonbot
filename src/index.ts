@@ -9,6 +9,7 @@ import coinFlip from './commands/minigame/coinFlip';
 import teamBalance from './commands/game/teamBalance';
 import registerTier from './commands/db/registerTier';
 import { handleVoiceStateUpdate } from './events/voiceStateUpdate';
+import registerSeparateVoiceChannel from './commands/db/registerSeparateVoiceChannel';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -35,6 +36,7 @@ async function registerCommands(): Promise<void> {
                 coinFlip.info.toJSON(),
                 teamBalance.info.toJSON(),
                 registerTier.info.toJSON(),
+                registerSeparateVoiceChannel.info.toJSON(),
             ]
         });
 
@@ -87,6 +89,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
             break;
         case '티어등록':
             registerTier.handler(interaction);
+            break;
+        case '배정채널등록':
+            registerSeparateVoiceChannel.handler(interaction);
             break;
     }
 };
