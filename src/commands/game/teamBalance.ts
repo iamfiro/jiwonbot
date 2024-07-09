@@ -1,16 +1,10 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Colors, EmbedBuilder, GuildMember, SlashCommandBuilder } from "discord.js";
 import { balanceTeams } from "../../handler/teamBalance";
 import { SupportGame } from "../../types/constant";
-import GameTierList from "../../constant/tier";
 import prisma from "../../lib/prisma";
 import { client } from "../../lib/bot";
 import { getDuplicateUsers, getVoiceChannelMembers } from "../../lib/utils";
-
-interface Player {
-    userId: string; 
-    name: string; 
-    tier: string;
-}
+import { createTeamBalanceEmbed } from "../../lib/embed";
 
 /**
  * Retrieves user data from the database and maps the tier based on the game type.
@@ -56,23 +50,10 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const channelUserInDatabase = getDuplicateUsers(voiceChannelMembers, databaseData);
         
     const validChannelUserInDatabase = channelUserInDatabase.filter(user => user !== undefined);
-    const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as Player[], game);
+    const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as BalancePlayer[], game);
 
-    const teamAEmbed = new EmbedBuilder()
-        .setTitle('A 팀')
-        .addFields(teamA.map(player => ({
-            name: player.name,
-            value: `${GameTierList[game].find(tier => tier.value === player.tier)?.emoji} ${GameTierList[game].find(tier => tier.value === player.tier)?.label}`
-        })))
-        .setColor(Colors.Red);
-
-    const teamBEmbed = new EmbedBuilder()
-        .setTitle('B 팀')
-        .addFields(teamB.map(player => ({
-            name: player.name,
-            value: `${GameTierList[game].find(tier => tier.value === player.tier)?.emoji} ${GameTierList[game].find(tier => tier.value === player.tier)?.label}`
-        })))
-        .setColor(Colors.Blue);
+    const teamAEmbed = createTeamBalanceEmbed('A 팀', teamA, game, Colors.Red);
+    const teamBEmbed = createTeamBalanceEmbed('B 팀', teamB, game, Colors.Blue);
     
     const divideVoiceButton = new ButtonBuilder()
         .setCustomId('divideVoice')

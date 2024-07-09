@@ -1,11 +1,5 @@
 import { SupportGame } from "../types/constant";
 
-interface Player {
-    userId: string; 
-    name: string; 
-    tier: string;
-}
-
 const valorantTierPoints: Record<string, number> = {
     'Iron 1': 1, 'Iron 2': 2, 'Iron 3': 3,
     'Bronze 1': 4, 'Bronze 2': 5, 'Bronze 3': 6,
@@ -27,14 +21,14 @@ const lolTierPoints: Record<string, number> = {
     'Master': 25, 'Grandmaster': 26, 'Challenger': 27
 };
 
-export function balanceTeams(players: Player[], game: SupportGame): { teamA: Player[], teamB: Player[] } {
+export function balanceTeams(players: BalancePlayer[], game: SupportGame): { teamA: BalancePlayer[], teamB: BalancePlayer[] } {
     const tierPoints = game === SupportGame.Valorant ? valorantTierPoints : lolTierPoints;
 
     players = players.slice(0, 10);
     players.sort((a, b) => tierPoints[b.tier] - tierPoints[a.tier]);
 
-    const teamA: Player[] = [];
-    const teamB: Player[] = [];
+    const teamA: BalancePlayer[] = [];
+    const teamB: BalancePlayer[] = [];
     let teamAScore = 0;
     let teamBScore = 0;
 
