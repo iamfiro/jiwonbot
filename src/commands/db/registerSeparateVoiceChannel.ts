@@ -8,7 +8,9 @@ import {
     StringSelectMenuBuilder, 
     StringSelectMenuOptionBuilder, 
     VoiceChannel,
-    EmbedBuilder
+    EmbedBuilder,
+    PermissionFlagsBits,
+    Colors
 } from "discord.js";
 import Logger from "../../lib/logger";
 import prisma from "../../lib/prisma";
@@ -20,6 +22,19 @@ const logger = new Logger();
  * @param {ChatInputCommandInteraction} interaction - The interaction object from Discord
  */
 async function handler(interaction: ChatInputCommandInteraction): Promise<void> {
+    // 관리자 권한 확인
+    if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
+        await interaction.editReply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('권한 없음')
+                    .setDescription('이 명령어를 사용할 권한이 없습니다.')
+                    .setColor(Colors.Red)
+            ],
+        });
+        return;
+    }
+    
     // Fetch the red and blue team voice channels from the interaction options
     const redChannel = interaction.options.getChannel("레드팀채널") as VoiceChannel;
     const blueChannel = interaction.options.getChannel("블루팀채널") as VoiceChannel;
