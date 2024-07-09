@@ -4,12 +4,10 @@ import {
     ButtonStyle, 
     ChatInputCommandInteraction, 
     Colors, 
-    EmbedBuilder, 
-    GuildMember, 
+    EmbedBuilder,
     SlashCommandBuilder, 
     ButtonInteraction, 
-    VoiceChannel, 
-    PermissionFlagsBits
+    VoiceChannel,
 } from "discord.js";
 import { balanceTeams } from "../../handler/teamBalance";
 import { SupportGame } from "../../types/constant";
@@ -38,7 +36,7 @@ async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandI
             tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
         };
     });
-} 
+}
 
 /**
  * Retrieves voice channel IDs from the database for the specified guild.
