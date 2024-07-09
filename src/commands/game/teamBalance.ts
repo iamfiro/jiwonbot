@@ -62,19 +62,6 @@ async function getVoiceChannelIds(guildId: string): Promise<{ redChannelId: stri
 async function handler(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
-    // 관리자 권한 확인
-    if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-        await interaction.editReply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle('권한 없음')
-                    .setDescription('이 명령어를 사용할 권한이 없습니다.')
-                    .setColor(Colors.Red)
-            ],
-        });
-        return;
-    }
-
     const voiceChannelMembers = await getVoiceChannelMembers(interaction);
 
     if (!voiceChannelMembers || voiceChannelMembers.length === 0) {
