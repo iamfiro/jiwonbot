@@ -17,11 +17,15 @@ async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandI
     const users = await prisma.tier.findMany();
     const member = client.users.cache.get(interaction.user.id);
 
-    return users.map(user => ({
-        userId: user.userId,
-        name: member?.displayName || 'Unknown',
-        tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
-    }));
+    return users.map(user => {
+        const member = client.users.cache.get(user.userId); 
+
+        return {
+            userId: user.userId,
+            name: member?.displayName || 'Unknown',
+            tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
+        }
+    })
 }
 
 /**
@@ -52,8 +56,8 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const validChannelUserInDatabase = channelUserInDatabase.filter(user => user !== undefined);
     const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as BalancePlayer[], game);
 
-    const teamAEmbed = createTeamBalanceEmbed('A 팀', teamA, game, Colors.Red);
-    const teamBEmbed = createTeamBalanceEmbed('B 팀', teamB, game, Colors.Blue);
+    const teamAEmbed = createTeamBalanceEmbed('A', teamA, game, Colors.Red);
+    const teamBEmbed = createTeamBalanceEmbed('B', teamB, game, Colors.Blue);
     
     const divideVoiceButton = new ButtonBuilder()
         .setCustomId('divideVoice')
