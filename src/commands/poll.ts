@@ -45,7 +45,8 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     duration: time,
                     layoutType: PollLayoutType.Default
                 }
-            })
+            });
+            break;
         case "private-match-yes-no":
             await channel.send({
                 poll: {
@@ -70,7 +71,8 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     duration: time,
                     layoutType: PollLayoutType.Default
                 }
-            })
+            });
+            break;
         case "val-position":
             await channel.send({
                 poll: {
@@ -99,7 +101,8 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     duration: time,
                     layoutType: PollLayoutType.Default
                 }
-            })
+            });
+            break;
     }
 }
 
