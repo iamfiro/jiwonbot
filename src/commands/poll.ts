@@ -46,6 +46,60 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     layoutType: PollLayoutType.Default
                 }
             })
+        case "private-match-yes-no":
+            await channel.send({
+                poll: {
+                    question: {
+                        text: '내전 여부',
+                    },
+                    answers: [
+                        {
+                            text: 'ㅇㅇ',
+                            emoji: '✅'
+                        },
+                        {
+                            text: 'ㄴㄴ',
+                            emoji: '❌'
+                        },
+                        {
+                            text: '자리 남으면 함',
+                            emoji: '😎'
+                        }
+                    ],
+                    allowMultiselect: allowMultiselect,
+                    duration: time,
+                    layoutType: PollLayoutType.Default
+                }
+            })
+        case "val-position":
+            await channel.send({
+                poll: {
+                    question: {
+                        text: '발로란트 포지션',
+                    },
+                    answers: [
+                        {
+                            text: '타격대',
+                            emoji: '🔫'
+                        },
+                        {
+                            text: '감시',
+                            emoji: '👀'
+                        },
+                        {
+                            text: '척후대',
+                            emoji: '🏹'
+                        },
+                        {
+                            text: '전략가',
+                            emoji: '🧠'
+                        }
+                    ],
+                    allowMultiselect: allowMultiselect,
+                    duration: time,
+                    layoutType: PollLayoutType.Default
+                }
+            })
     }
 }
 
@@ -60,10 +114,17 @@ export default {
                 .setRequired(true)
                 .addChoices([
                     {
+                        name: '내전 여부',
+                        value: 'private-match-yes-no'
+                    },
+                    {
                         name: '리그오브레전드 포지션',
                         value: 'lol-position'
                     },
-
+                    {
+                        name: '발로란트 포지션',
+                        value: 'val-position'
+                    }
                 ])
         )
         .addIntegerOption(option =>
