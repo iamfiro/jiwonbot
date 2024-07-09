@@ -8,6 +8,7 @@ export const client = new Client({
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates
     ],
     partials: [
         Partials.Message,
