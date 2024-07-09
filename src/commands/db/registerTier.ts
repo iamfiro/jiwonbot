@@ -62,7 +62,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const TierList = GameTierList[selectGame];
     const groupSize = 10; // Define the size of each group
     const stringSelectMenuOptions: StringSelectMenuOptionBuilder[] = TierList.map(tier => 
-        new StringSelectMenuOptionBuilder().setLabel(tier.label).setValue(tier.value)
+        new StringSelectMenuOptionBuilder().setLabel(tier.label).setValue(tier.value).setEmoji(tier.emoji)
     );
     const tierGroups = splitTiersIntoGroups(stringSelectMenuOptions, groupSize);
     const totalPages = tierGroups.length;
