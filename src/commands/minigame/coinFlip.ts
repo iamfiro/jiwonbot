@@ -13,6 +13,6 @@ async function handler(interaction: ChatInputCommandInteraction) {
 }
 
 export default {
-    info: new SlashCommandBuilder().setName("동전던지기").setDescription("[ 🪙 ] 앞면이 나올까요 뒷면이 나올까요!"),
+    info: new SlashCommandBuilder().setName("동전던지기").setDescription("앞면이 나올까요 뒷면이 나올까요!"),
     handler
 }
