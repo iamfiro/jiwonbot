@@ -5,6 +5,9 @@ import prisma from "../../lib/prisma";
 import { client } from "../../lib/bot";
 import { getDuplicateUsers, getVoiceChannelMembers } from "../../lib/utils";
 import { createTeamBalanceEmbed } from "../../lib/embed";
+import Logger from "../../lib/logger";
+
+const logger = new Logger
 
 /**
  * Retrieves user data from the database and maps the tier based on the game type.
