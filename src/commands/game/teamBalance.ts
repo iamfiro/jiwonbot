@@ -59,8 +59,8 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const validChannelUserInDatabase = channelUserInDatabase.filter(user => user !== undefined);
     const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as BalancePlayer[], game);
 
-    const teamAEmbed = createTeamBalanceEmbed('A', teamA, game, Colors.Red);
-    const teamBEmbed = createTeamBalanceEmbed('B', teamB, game, Colors.Blue);
+    const teamAEmbed = createTeamBalanceEmbed('레드', teamA, game, Colors.Red);
+    const teamBEmbed = createTeamBalanceEmbed('블루', teamB, game, Colors.Blue);
     
     const divideVoiceButton = new ButtonBuilder()
         .setCustomId('divideVoice')
