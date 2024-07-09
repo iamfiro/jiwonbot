@@ -37,7 +37,7 @@ async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandI
             tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
         };
     });
-}
+} 
 
 /**
  * Retrieves voice channel IDs from the database for the specified guild.
@@ -99,7 +99,7 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
 
     // Collect button interaction
     const filter = (i: ButtonInteraction<"cached"> | any) => i.customId === 'divideVoice' && i.user.id === interaction.user.id;
-    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 15000 });
+    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 600_000 });
 
     collector?.on('collect', async (i: ButtonInteraction) => {
         if (i.customId === 'divideVoice') {
@@ -112,13 +112,37 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
                             .setDescription('오류가 지속된다면 \`/배정채널등록\` 으로 채널을 설정해주세요')
                             .setColor(Colors.Red)
                     ],
-                    ephemeral: true
                 });
                 return;
             }
 
             const redVoiceChannel = interaction.guild?.channels.cache.get(channelIds.redChannelId) as VoiceChannel;
             const blueVoiceChannel = interaction.guild?.channels.cache.get(channelIds.blueChannelId) as VoiceChannel;
+
+            if (!redVoiceChannel) {
+                await i.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle('레드팀 채널을 찾을 수 없습니다.')
+                            .setDescription('등록된 채널을 찾을 수 없습니다. \`/배정채널등록\` 명령어로 채널을 재설정해주세요.')
+                            .setColor(Colors.Red)
+                    ],
+                });
+                return;
+            }
+
+            if (!blueVoiceChannel) {
+                await i.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle('블루팀 채널을 찾을 수 없습니다.')
+                            .setDescription('등록된 채널을 찾을 수 없습니다. \`/배정채널등록\` 명령어로 채널을 재설정해주세요.')
+                            .setColor(Colors.Red)
+                    ],
+                    ephemeral: true
+                });
+                return;
+            }
 
             await handleDivideVoice(i, teamA, teamB, redVoiceChannel, blueVoiceChannel);
         }
@@ -166,8 +190,7 @@ async function handleDivideVoice(interaction: ButtonInteraction, teamA: BalanceP
                     .setTitle('음성 채널 배정 중 오류가 발생했습니다.')
                     .setDescription('오류가 지속된다면 \`/배정채널등록\` 으로 채널을 설정해주세요')
                     .setColor(Colors.Red)
-            ],
-            ephemeral: true
+            ]
         });
     }
 }
