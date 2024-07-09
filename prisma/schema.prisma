@@ -18,3 +18,9 @@ model Tier {
   valorantTier        String  @default("")
   lolTier             String  @default("")
 }
+
+model VoiceChannel {
+  guildId     String @default("") @unique
+  redChannel String @default("")
+  blueChannel String @default("")
+}
