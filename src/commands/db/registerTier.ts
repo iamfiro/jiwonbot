@@ -102,7 +102,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
                 });
 
                 await i.update({
-                    content: `✅ ${selectGame} 티어가 성공적으로 등록되었습니다: ${selectedTier}`,
+                    content: `✅ ${selectGame === SupportGame.Valorant ? '발로란트' : '롤'} 티어가 성공적으로 등록되었습니다: ${TierList.find(tier => tier.value === selectedTier)?.emoji} ${TierList.find(tier => tier.value === selectedTier)?.label}`,
                     components: []
                 });
                 collector.stop();
