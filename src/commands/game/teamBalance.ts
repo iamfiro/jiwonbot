@@ -1,44 +1,91 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Colors, EmbedBuilder, GuildMember, SlashCommandBuilder } from "discord.js";
 import { balanceTeams } from "../../handler/teamBalance";
-import SupportGameList from "../../constant/game";
 import { SupportGame } from "../../types/constant";
+import GameTierList from "../../constant/tier";
+import prisma from "../../lib/prisma";
+import { client } from "../../lib/bot";
+import { getDuplicateUsers, getVoiceChannelMembers } from "../../lib/utils";
 
+interface Player {
+    userId: string; 
+    name: string; 
+    tier: string;
+}
+
+/**
+ * Retrieves user data from the database and maps the tier based on the game type.
+ *
+ * @param {SupportGame} game - The game type.
+ * @param {ChatInputCommandInteraction} interaction - The interaction object from Discord.
+ * @returns {Promise<Array<{ name: string; tier: string; userId: string }>>} The list of users with their corresponding tier.
+ */
+async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandInteraction): Promise<Array<{ name: string; tier: string; userId: string }>> {
+    const users = await prisma.tier.findMany();
+    const member = client.users.cache.get(interaction.user.id);
+
+    return users.map(user => ({
+        userId: user.userId,
+        name: member?.displayName || 'Unknown',
+        tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
+    }));
+}
+
+/**
+ * Handles the interaction for balancing teams.
+ *
+ * @param {ChatInputCommandInteraction} interaction - The interaction object from Discord.
+ */
 async function handler(interaction: ChatInputCommandInteraction) {
+    await interaction.deferReply();
+
+    const voiceChannelMembers = getVoiceChannelMembers(interaction);
+
+    if (!voiceChannelMembers || voiceChannelMembers.length === 0) {
+        await interaction.editReply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('먼저 음성 채널에 들어가주세요')
+                    .setColor(Colors.Red)
+            ]
+        });
+        return;
+    }
+
     const game = interaction.options.getString('게임') as SupportGame;
-        let players = [
-            { name: 'Player1', tier: 'Radiant' },
-            { name: 'Player2', tier: 'Silver 1' },
-            { name: 'Player3', tier: 'Silver 3' },
-            { name: 'Player4', tier: 'Gold 2' },
-            { name: 'Player5', tier: 'Platinum 3' },
-            { name: 'Player6', tier: 'Platinum 2' },
-            { name: 'Player7', tier: 'Bronze 3' },
-            { name: 'Player8', tier: 'Iron 2' },
-            { name: 'Player9', tier: 'Iron 2' },
-            { name: 'Player10', tier: 'Iron 2' },
-        ];
-
-        if (game === SupportGame["League of Legends"]) {
-            players = [
-                { name: 'Player7', tier: 'Challenger' },
-                { name: 'Player8', tier: 'Iron IV' },
-                { name: 'Player9', tier: 'Iron IV' },
-                { name: 'Player10', tier: 'Iron IV' },
-                { name: 'Player11', tier: 'Platinum IV' },
-                { name: 'Player12', tier: 'Platinum III' },
-                { name: 'Player13', tier: 'Platinum III' },
-                { name: 'Player14', tier: 'Gold III' },
-                { name: 'Player15', tier: 'Gold III' },
-                { name: 'Player16', tier: 'Silver III' }
-            ];
-        }
+    const databaseData = await getDatabaseData(game, interaction);
+    const channelUserInDatabase = getDuplicateUsers(voiceChannelMembers, databaseData);
         
-        const { teamA, teamB, teamAScore, teamBScore } = balanceTeams(players, game);
+    const validChannelUserInDatabase = channelUserInDatabase.filter(user => user !== undefined);
+    const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as Player[], game);
 
-        const teamAPlayers = teamA.map(player => `${player.name} (${player.tier})`).join('\n');
-        const teamBPlayers = teamB.map(player => `${player.name} (${player.tier})`).join('\n');
+    const teamAEmbed = new EmbedBuilder()
+        .setTitle('A 팀')
+        .addFields(teamA.map(player => ({
+            name: player.name,
+            value: `${GameTierList[game].find(tier => tier.value === player.tier)?.emoji} ${GameTierList[game].find(tier => tier.value === player.tier)?.label}`
+        })))
+        .setColor(Colors.Red);
 
-        await interaction.reply(`**Team A (Score: ${teamAScore}):**\n${teamAPlayers}\n\n**Team B (Score: ${teamBScore}):**\n${teamBPlayers}`);
+    const teamBEmbed = new EmbedBuilder()
+        .setTitle('B 팀')
+        .addFields(teamB.map(player => ({
+            name: player.name,
+            value: `${GameTierList[game].find(tier => tier.value === player.tier)?.emoji} ${GameTierList[game].find(tier => tier.value === player.tier)?.label}`
+        })))
+        .setColor(Colors.Blue);
+    
+    const divideVoiceButton = new ButtonBuilder()
+        .setCustomId('divideVoice')
+        .setLabel('음성 채널 자동 배정')
+        .setStyle(ButtonStyle.Success)
+        .setEmoji('<:Voice:1260088188475805738>');
+
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(divideVoiceButton);
+
+    await interaction.editReply({
+        embeds: [teamAEmbed, teamBEmbed],
+        components: [row]
+    });
 }
 
 export default {
@@ -60,7 +107,6 @@ export default {
                         value: SupportGame["League of Legends"]
                     }
                 ])
-        )
-        ,
+        ),
     handler
 }

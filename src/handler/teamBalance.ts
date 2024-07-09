@@ -1,8 +1,8 @@
 import { SupportGame } from "../types/constant";
 
-// src/util/teamBalancer.ts
 interface Player {
-    name: string;
+    userId: string; 
+    name: string; 
     tier: string;
 }
 
@@ -27,13 +27,10 @@ const lolTierPoints: Record<string, number> = {
     'Master': 25, 'Grandmaster': 26, 'Challenger': 27
 };
 
-export function balanceTeams(players: Player[], game: SupportGame): { teamA: Player[], teamB: Player[], teamAScore: number, teamBScore: number } {
+export function balanceTeams(players: Player[], game: SupportGame): { teamA: Player[], teamB: Player[] } {
     const tierPoints = game === SupportGame.Valorant ? valorantTierPoints : lolTierPoints;
 
-    // 플레이어 목록을 최대 10명으로 제한
     players = players.slice(0, 10);
-
-    // 점수로 정렬
     players.sort((a, b) => tierPoints[b.tier] - tierPoints[a.tier]);
 
     const teamA: Player[] = [];
@@ -41,7 +38,6 @@ export function balanceTeams(players: Player[], game: SupportGame): { teamA: Pla
     let teamAScore = 0;
     let teamBScore = 0;
 
-    // 그리디 방식으로 팀 배분
     for (const player of players) {
         const playerScore = tierPoints[player.tier];
         if (teamAScore <= teamBScore && teamA.length < 5) {
@@ -56,5 +52,5 @@ export function balanceTeams(players: Player[], game: SupportGame): { teamA: Pla
         }
     }
 
-    return { teamA, teamB, teamAScore, teamBScore };
+    return { teamA, teamB };
 }
