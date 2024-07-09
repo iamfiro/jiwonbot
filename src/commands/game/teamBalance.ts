@@ -8,7 +8,8 @@ import {
     GuildMember, 
     SlashCommandBuilder, 
     ButtonInteraction, 
-    VoiceChannel 
+    VoiceChannel, 
+    PermissionFlagsBits
 } from "discord.js";
 import { balanceTeams } from "../../handler/teamBalance";
 import { SupportGame } from "../../types/constant";
@@ -60,6 +61,20 @@ async function getVoiceChannelIds(guildId: string): Promise<{ redChannelId: stri
  */
 async function handler(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
+
+    // 관리자 권한 확인
+    if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('권한 없음')
+                    .setDescription('이 명령어를 사용할 권한이 없습니다.')
+                    .setColor(Colors.Red)
+            ],
+            ephemeral: true
+        });
+        return;
+    }
 
     const voiceChannelMembers = await getVoiceChannelMembers(interaction);
 
