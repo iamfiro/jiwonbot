@@ -24,8 +24,8 @@ async function handleRandomMapCommand(interaction: ChatInputCommandInteraction) 
     }
 
     const mapName = selectedMap.value.toLowerCase();
-    const mapFilePath = path.join(__dirname, `../images/map/${selectedGame.toLowerCase()}/${mapName}/map.webp`);
-    const bannerFilePath = path.join(__dirname, `../images/map/${selectedGame.toLowerCase()}/${mapName}/banner.webp`);
+    const mapFilePath = path.join(__dirname, `../../images/map/${selectedGame.toLowerCase()}/${mapName}/map.webp`);
+    const bannerFilePath = path.join(__dirname, `../../images/map/${selectedGame.toLowerCase()}/${mapName}/banner.webp`);
 
     const mapAttachment = new AttachmentBuilder(mapFilePath, { name: 'map.png' });
     const bannerAttachment = new AttachmentBuilder(bannerFilePath, { name: 'banner.png' });

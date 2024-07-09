@@ -7,6 +7,7 @@ import ping from './commands/ping';
 import randomMap from './commands/game/randomMap';
 import coinFlip from './commands/minigame/coinFlip';
 import teamBalance from './commands/game/teamBalance';
+import registerTier from './commands/db/registerTier';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -32,6 +33,7 @@ async function registerCommands() {
                 randomMap.info.toJSON(),
                 coinFlip.info.toJSON(),
                 teamBalance.info.toJSON(),
+                registerTier.info.toJSON(),
             ]
         });
 
@@ -77,6 +79,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
             break;
         case '밸런스':
             teamBalance.handler(interaction);
+            break;
+        case '티어등록':
+            registerTier.handler(interaction);
             break;
     }
 };
