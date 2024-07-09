@@ -40,12 +40,12 @@ function createPaginationButtons(currentPage: number, totalPages: number) {
     buttons.addComponents(
         new ButtonBuilder()
             .setCustomId('previous')
-            .setLabel('이전')
+            .setLabel('⬅️ 이전 티어 보기')
             .setStyle(ButtonStyle.Primary)
             .setDisabled(currentPage === 0),
         new ButtonBuilder()
             .setCustomId('next')
-            .setLabel('다음')
+            .setLabel('➡️ 다음 티어 보기')
             .setStyle(ButtonStyle.Primary)
             .setDisabled(currentPage === totalPages - 1)
     );
@@ -101,10 +101,13 @@ async function handler(interaction: ChatInputCommandInteraction) {
                     create: { userId: interaction.user.id, [fieldToUpdate]: selectedTier }
                 });
 
+                logger.info(`Tier registered successfully: ${selectedTier} for ${interaction.user.id}`);
+
                 await i.update({
                     content: `✅ ${selectGame === SupportGame.Valorant ? '발로란트' : '롤'} 티어가 성공적으로 등록되었습니다: ${TierList.find(tier => tier.value === selectedTier)?.emoji} ${TierList.find(tier => tier.value === selectedTier)?.label}`,
-                    components: []
+                    components: [],
                 });
+                
                 collector.stop();
             } catch (error) {
                 logger.error(`Failed to register tier: ${error}`);

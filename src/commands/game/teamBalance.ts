@@ -39,7 +39,7 @@ async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandI
 async function handler(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
 
-    const voiceChannelMembers = getVoiceChannelMembers(interaction);
+    const voiceChannelMembers = await getVoiceChannelMembers(interaction);
 
     if (!voiceChannelMembers || voiceChannelMembers.length === 0) {
         await interaction.editReply({
