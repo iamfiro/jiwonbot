@@ -11,12 +11,16 @@ import { SupportGame } from "../types/constant";
  * @param {string} color - The color of the embed.
  * @returns {EmbedBuilder} The created embed.
  */
-export function createTeamBalanceEmbed(teamName: string, team: BalancePlayer[], game: SupportGame, color: any): EmbedBuilder {
-    return new EmbedBuilder()
+export function createTeamBalanceEmbed(teamName: string, team: BalancePlayer[], game: SupportGame, color: any, footer?: string): EmbedBuilder {
+    const Embed = new EmbedBuilder()
         .setTitle(`${teamName} 팀`)
         .addFields(team.map(player => ({
             name: player.name,
             value: `${GameTierList[game].find(tier => tier.value === player.tier)?.emoji} ${GameTierList[game].find(tier => tier.value === player.tier)?.label}`
         })))
         .setColor(color);
+
+    if(footer) Embed.setFooter({ text: footer });
+    
+    return Embed;
 }
