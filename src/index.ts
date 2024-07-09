@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { AutocompleteInteraction, ButtonInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, ModalSubmitInteraction, Routes } from 'discord.js';
+import { ActivityType, AutocompleteInteraction, ButtonInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, ModalSubmitInteraction, Routes } from 'discord.js';
 import Logger from "./lib/logger";
 import { client, rest } from './lib/bot';
 import { ModalHandlerListType } from './types/interactionEvent';
@@ -55,6 +55,11 @@ async function registerCommands(): Promise<void> {
 client.on('ready', () => {
     registerCommands().then(() => {
         handleVoiceStateUpdate(client);
+
+        client.user?.setPresence({
+            activities: [{ name: '재밌는 내전 찾기', type: ActivityType.Playing }],
+            status: 'online'
+        })
     })
 });
 
