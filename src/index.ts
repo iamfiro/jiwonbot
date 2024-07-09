@@ -11,6 +11,7 @@ import registerTier from './commands/db/registerTier';
 import { handleVoiceStateUpdate } from './events/voiceStateUpdate';
 import registerSeparateVoiceChannel from './commands/db/registerSeparateVoiceChannel';
 import poll from './commands/poll';
+import developer from './commands/developer';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -39,6 +40,7 @@ async function registerCommands(): Promise<void> {
                 registerTier.info.toJSON(),
                 registerSeparateVoiceChannel.info.toJSON(),
                 poll.info.toJSON(),
+                developer.info.toJSON(),
             ]
         });
 
@@ -97,6 +99,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
             break;
         case '투표':
             poll.handler(interaction);
+            break;
+        case '개발자':
+            developer.handler(interaction);
             break;
     }
 };
