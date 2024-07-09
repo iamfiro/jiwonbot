@@ -140,7 +140,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
 export default {
     info: new SlashCommandBuilder()
         .setName("티어등록")
-        .setDescription("[ ➕ ] 지원봇에 내전을 위한 티어를 등록합니다")
+        .setDescription("지원봇에 티어를 등록합니다")
         .addStringOption(option =>
             option
                 .setName("게임")
