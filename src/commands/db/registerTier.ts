@@ -148,11 +148,11 @@ export default {
                 .setRequired(true)
                 .addChoices([
                     {
-                        name: '🔫 발로란트',
+                        name: '발로란트',
                         value: SupportGame.Valorant
                     },
                     {
-                        name: '🎮 리그 오브 레전드',
+                        name: '리그 오브 레전드',
                         value: SupportGame["League of Legends"]
                     }
                 ])
