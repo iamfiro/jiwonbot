@@ -1,4 +1,15 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Colors, EmbedBuilder, GuildMember, SlashCommandBuilder } from "discord.js";
+import { 
+    ActionRowBuilder, 
+    ButtonBuilder, 
+    ButtonStyle, 
+    ChatInputCommandInteraction, 
+    Colors, 
+    EmbedBuilder, 
+    GuildMember, 
+    SlashCommandBuilder, 
+    ButtonInteraction, 
+    VoiceChannel 
+} from "discord.js";
 import { balanceTeams } from "../../handler/teamBalance";
 import { SupportGame } from "../../types/constant";
 import prisma from "../../lib/prisma";
@@ -7,7 +18,7 @@ import { getDuplicateUsers, getVoiceChannelMembers } from "../../lib/utils";
 import { createTeamBalanceEmbed } from "../../lib/embed";
 import Logger from "../../lib/logger";
 
-const logger = new Logger
+const logger = new Logger();
 
 /**
  * Retrieves user data from the database and maps the tier based on the game type.
@@ -18,17 +29,28 @@ const logger = new Logger
  */
 async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandInteraction): Promise<Array<{ name: string; tier: string; userId: string }>> {
     const users = await prisma.tier.findMany();
-    const member = client.users.cache.get(interaction.user.id);
-
     return users.map(user => {
         const member = client.users.cache.get(user.userId); 
-
         return {
             userId: user.userId,
             name: member?.displayName || 'Unknown',
             tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
-        }
-    })
+        };
+    });
+}
+
+/**
+ * Retrieves voice channel IDs from the database for the specified guild.
+ *
+ * @param {string} guildId - The ID of the guild.
+ * @returns {Promise<{ redChannelId: string; blueChannelId: string } | null>} The IDs of the red and blue team voice channels, or null if not found.
+ */
+async function getVoiceChannelIds(guildId: string): Promise<{ redChannelId: string; blueChannelId: string } | null> {
+    const channels = await prisma.voiceChannel.findUnique({
+        where: { guildId }
+    });
+    if (!channels) return null;
+    return { redChannelId: channels.redChannel, blueChannelId: channels.blueChannel };
 }
 
 /**
@@ -36,7 +58,7 @@ async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandI
  *
  * @param {ChatInputCommandInteraction} interaction - The interaction object from Discord.
  */
-async function handler(interaction: ChatInputCommandInteraction) {
+async function handler(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
     const voiceChannelMembers = await getVoiceChannelMembers(interaction);
@@ -45,7 +67,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle('먼저 음성 채널에 들어가주세요')
+                    .setTitle('먼저 음성 채널에 들어가주세요.')
                     .setColor(Colors.Red)
             ]
         });
@@ -60,20 +82,94 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as BalancePlayer[], game);
 
     const teamAEmbed = createTeamBalanceEmbed('레드', teamA, game, Colors.Red);
-    const teamBEmbed = createTeamBalanceEmbed('블루', teamB, game, Colors.Blue, 'TIP: 자신이 보이지 않는다면 \`/티어등록\` 을 통해서 티어를 등록해주세요!');
+    const teamBEmbed = createTeamBalanceEmbed('블루', teamB, game, Colors.Blue, 'TIP: 자신이 보이지 않는다면 `/티어등록` 을 통해서 티어를 등록해주세요!');
     
     const divideVoiceButton = new ButtonBuilder()
         .setCustomId('divideVoice')
         .setLabel('음성 채널 자동 배정')
         .setStyle(ButtonStyle.Success)
         .setEmoji('<:Voice:1260088188475805738>');
-
+         
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(divideVoiceButton);
 
     await interaction.editReply({
         embeds: [teamAEmbed, teamBEmbed],
         components: [row]
     });
+
+    // Collect button interaction
+    const filter = (i: ButtonInteraction<"cached"> | any) => i.customId === 'divideVoice' && i.user.id === interaction.user.id;
+    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 15000 });
+
+    collector?.on('collect', async (i: ButtonInteraction) => {
+        if (i.customId === 'divideVoice') {
+            const channelIds = await getVoiceChannelIds(interaction.guildId!);
+            if (!channelIds) {
+                await i.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle('등록된 음성 채널 정보를 찾을 수 없습니다.')
+                            .setDescription('오류가 지속된다면 \`/배정채널등록\` 으로 채널을 설정해주세요')
+                            .setColor(Colors.Red)
+                    ],
+                    ephemeral: true
+                });
+                return;
+            }
+
+            const redVoiceChannel = interaction.guild?.channels.cache.get(channelIds.redChannelId) as VoiceChannel;
+            const blueVoiceChannel = interaction.guild?.channels.cache.get(channelIds.blueChannelId) as VoiceChannel;
+
+            await handleDivideVoice(i, teamA, teamB, redVoiceChannel, blueVoiceChannel);
+        }
+    });
+}
+
+/**
+ * Handles the button interaction for dividing voice channels.
+ *
+ * @param {ButtonInteraction} interaction - The button interaction object from Discord.
+ * @param {Array<BalancePlayer>} teamA - The players in team A.
+ * @param {Array<BalancePlayer>} teamB - The players in team B.
+ * @param {VoiceChannel} redVoiceChannel - The voice channel for the red team.
+ * @param {VoiceChannel} blueVoiceChannel - The voice channel for the blue team.
+ */
+async function handleDivideVoice(interaction: ButtonInteraction, teamA: BalancePlayer[], teamB: BalancePlayer[], redVoiceChannel: VoiceChannel, blueVoiceChannel: VoiceChannel): Promise<void> {
+    try {
+        for (const player of teamA) {
+            const member = interaction.guild?.members.cache.get(player.userId);
+            if (member && member.voice.channel) {
+                await member.voice.setChannel(redVoiceChannel);
+            }
+        }
+
+        for (const player of teamB) {
+            const member = interaction.guild?.members.cache.get(player.userId);
+            if (member && member.voice.channel) {
+                await member.voice.setChannel(blueVoiceChannel);
+            }
+        }
+
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('배정 완료')
+                    .setDescription('팀이 성공적으로 음성 채널에 배정되었습니다.')
+                    .setColor(Colors.Green)
+            ],
+        });
+    } catch (error) {
+        logger.error(`음성 채널 배정 중 오류 발생: ${error}`);
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('음성 채널 배정 중 오류가 발생했습니다.')
+                    .setDescription('오류가 지속된다면 \`/배정채널등록\` 으로 채널을 설정해주세요')
+                    .setColor(Colors.Red)
+            ],
+            ephemeral: true
+        });
+    }
 }
 
 export default {
@@ -97,4 +193,4 @@ export default {
                 ])
         ),
     handler
-}
+};
