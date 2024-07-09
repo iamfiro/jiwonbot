@@ -60,7 +60,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const { teamA, teamB } = balanceTeams(validChannelUserInDatabase as BalancePlayer[], game);
 
     const teamAEmbed = createTeamBalanceEmbed('레드', teamA, game, Colors.Red);
-    const teamBEmbed = createTeamBalanceEmbed('블루', teamB, game, Colors.Blue);
+    const teamBEmbed = createTeamBalanceEmbed('블루', teamB, game, Colors.Blue, 'TIP: 자신이 보이지 않는다면 \`/티어등록\` 을 통해서 티어를 등록해주세요!');
     
     const divideVoiceButton = new ButtonBuilder()
         .setCustomId('divideVoice')
