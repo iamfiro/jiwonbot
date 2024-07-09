@@ -13,14 +13,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum GameList {
-  Valorant
-  LeagueOfLegends
-}
-
 model Tier {
-  id          String   @id @default(uuid())
-  userId      String
-  tier        String
-  game        GameList
+  userId      String   @default("") @unique
+  valorantTier        String  @default("")
+  lolTier             String  @default("")
 }
