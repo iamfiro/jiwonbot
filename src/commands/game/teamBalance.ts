@@ -64,14 +64,13 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
 
     // 관리자 권한 확인
     if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-        await interaction.reply({
+        await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('권한 없음')
                     .setDescription('이 명령어를 사용할 권한이 없습니다.')
                     .setColor(Colors.Red)
             ],
-            ephemeral: true
         });
         return;
     }
