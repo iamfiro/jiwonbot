@@ -45,7 +45,7 @@ async function handleRandomMapCommand(interaction: ChatInputCommandInteraction) 
 export default {
     info: new SlashCommandBuilder()
         .setName("랜덤맵")
-        .setDescription("[ 🗺️ ] 맵을 랜덤으로 선택해줍니다")
+        .setDescription("맵을 랜덤으로 선택합니다")
         .addStringOption(option =>
             option
                 .setName("게임")
