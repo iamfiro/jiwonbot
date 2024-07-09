@@ -7,7 +7,7 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const time = interaction.options.getInteger("시간") || 4;
     const allowMultiselect = interaction.options.getBoolean("다중선택") || false;
 
-    interaction.reply({
+    await interaction.reply({
         content: "투표 템플릿을 생성합니다",
         ephemeral: true
     })
