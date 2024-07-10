@@ -1,6 +1,8 @@
 export enum SupportGame {
     'Valorant' = 'Valorant',
-    'League of Legends' = 'League of Legends'
+    'League of Legends' = 'League of Legends',
+    'PUBG Default' = 'PUBG Default',
+    'PUBG Custom' = 'PUBG Custom',
 }
 
 export interface SupportGameList {
