@@ -55,6 +55,57 @@ const SupportMapList: SupportMapList[] = [
         name: '선셋 (Sunset)',
         value: 'Sunset',
         game: SupportGame.Valorant,
+    },
+    // PUBG Default
+    {
+        name: '파라모 (Paramo)',
+        value: 'Paramo',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '미라마 (Miramar)',
+        value: 'Miramar',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '에란겔 (Erangel)',
+        value: 'Erangel',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '사녹 (Sanhok)',
+        value: 'Sanhok',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '비켄디 (Vikendi)',
+        value: 'Vikendi',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '카라킨 (Karakin)',
+        value: 'Karakin',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '데스턴 (Deston)',
+        value: 'Deston',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '론도 (Rondo)',
+        value: 'Rondo',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '태이고 (Taego)',
+        value: 'Taego',
+        game: SupportGame["PUBG Default"],
+    },
+    {
+        name: '비켄디 (Vikendi)',
+        value: 'Vikendi',
+        game: SupportGame["PUBG Default"],
     }
 ]
 
