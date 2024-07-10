@@ -115,8 +115,9 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
                 return;
             }
 
-            const redVoiceChannel = interaction.guild?.channels.cache.get(channelIds.redChannelId) as VoiceChannel;
-            const blueVoiceChannel = interaction.guild?.channels.cache.get(channelIds.blueChannelId) as VoiceChannel;
+            const guild = client.guilds.cache.get(interaction.guildId!);
+            const redVoiceChannel = guild?.channels.cache.get(channelIds.redChannelId) as VoiceChannel;
+            const blueVoiceChannel = guild?.channels.cache.get(channelIds.blueChannelId) as VoiceChannel;
 
             if (!redVoiceChannel) {
                 await i.reply({
