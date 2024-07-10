@@ -24,7 +24,7 @@ const logger = new Logger();
 async function handler(interaction: ChatInputCommandInteraction): Promise<void> {
     // 관리자 권한 확인
     if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-        await interaction.editReply({
+        await interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('권한 없음')
