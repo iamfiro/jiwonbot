@@ -145,7 +145,7 @@ const SupportMapList: SupportMapList[] = [
     },
     {
         name: '부트캠프 (Bootcamp)',
-        value: 'Bootcamp',
+        value: 'Boot camp',
         game: SupportGame['PUBG Custom']
     },
     {
