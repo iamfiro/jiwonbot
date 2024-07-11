@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import GameTierList from "../constant/tier";
-import { SupportGame } from "../types/constant";
+import { SupportGame, SupportGameTier } from "../types/constant";
 
 /**
  * Creates an embed for a team.
@@ -11,7 +11,7 @@ import { SupportGame } from "../types/constant";
  * @param {string} color - The color of the embed.
  * @returns {EmbedBuilder} The created embed.
  */
-export function createTeamBalanceEmbed(teamName: string, team: BalancePlayer[], game: SupportGame, color: any, footer?: string): EmbedBuilder {
+export function createTeamBalanceEmbed(teamName: string, team: BalancePlayer[], game: SupportGameTier, color: any, footer?: string): EmbedBuilder {
     const Embed = new EmbedBuilder()
         .setTitle(`${teamName} 팀`)
         .addFields(team.map(player => ({

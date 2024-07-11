@@ -1,4 +1,4 @@
-import { TierList } from "../types/constant";
+import { SupportGameTier, TierList } from "../types/constant";
 
 const GameTierList: TierList = {
     Valorant: [
@@ -55,5 +55,6 @@ const GameTierList: TierList = {
         { label: '챌린저', value: 'Challenger', weight: 27, emoji: '<:Challenger:1260067067864940596>' }
     ]
 }
+
 
 export default GameTierList;

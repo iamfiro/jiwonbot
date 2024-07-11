@@ -10,7 +10,7 @@ import {
     VoiceChannel,
 } from "discord.js";
 import { balanceTeams } from "../../handler/teamBalance";
-import { SupportGame } from "../../types/constant";
+import { SupportGame, SupportGameTier } from "../../types/constant";
 import prisma from "../../lib/prisma";
 import { client } from "../../lib/bot";
 import { getDuplicateUsers, getVoiceChannelMembers } from "../../lib/utils";
@@ -26,14 +26,14 @@ const logger = new Logger();
  * @param {ChatInputCommandInteraction} interaction - The interaction object from Discord.
  * @returns {Promise<Array<{ name: string; tier: string; userId: string }>>} The list of users with their corresponding tier.
  */
-async function getDatabaseData(game: SupportGame, interaction: ChatInputCommandInteraction): Promise<Array<{ name: string; tier: string; userId: string }>> {
+async function getDatabaseData(game: SupportGameTier, interaction: ChatInputCommandInteraction): Promise<Array<{ name: string; tier: string; userId: string }>> {
     const users = await prisma.tier.findMany();
     return users.map(user => {
         const member = client.users.cache.get(user.userId); 
         return {
             userId: user.userId,
             name: member?.displayName || 'Unknown',
-            tier: game === SupportGame.Valorant ? user.valorantTier : user.lolTier
+            tier: game === SupportGameTier.Valorant ? user.valorantTier : user.lolTier
         };
     });
 }
@@ -73,7 +73,7 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
         return;
     }
 
-    const game = interaction.options.getString('게임') as SupportGame;
+    const game = interaction.options.getString('게임') as SupportGameTier;
     const databaseData = await getDatabaseData(game, interaction);
     const channelUserInDatabase = getDuplicateUsers(voiceChannelMembers, databaseData);
         

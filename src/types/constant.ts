@@ -23,6 +23,11 @@ interface Tier {
     emoji: string;
 }
 
+export enum SupportGameTier {
+    'Valorant' = 'Valorant',
+    'League of Legends' = 'League of Legends',
+}
+
 export type TierList = {
-    [key in SupportGame]?: Tier[];
+    [key in SupportGameTier]: Tier[];
 };

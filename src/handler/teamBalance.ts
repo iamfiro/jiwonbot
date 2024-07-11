@@ -1,4 +1,4 @@
-import { SupportGame } from "../types/constant";
+import { SupportGame, SupportGameTier } from "../types/constant";
 
 const valorantTierPoints: Record<string, number> = {
     'Iron 1': 1, 'Iron 2': 2, 'Iron 3': 3,
@@ -21,8 +21,8 @@ const lolTierPoints: Record<string, number> = {
     'Master': 25, 'Grandmaster': 26, 'Challenger': 27
 };
 
-export function balanceTeams(players: BalancePlayer[], game: SupportGame): { teamA: BalancePlayer[], teamB: BalancePlayer[] } {
-    const tierPoints = game === SupportGame.Valorant ? valorantTierPoints : lolTierPoints;
+export function balanceTeams(players: BalancePlayer[], game: SupportGameTier): { teamA: BalancePlayer[], teamB: BalancePlayer[] } {
+    const tierPoints = game === SupportGameTier.Valorant ? valorantTierPoints : lolTierPoints;
 
     players = players.slice(0, 10);
     players.sort((a, b) => tierPoints[b.tier] - tierPoints[a.tier]);
