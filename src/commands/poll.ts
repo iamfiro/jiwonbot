@@ -17,6 +17,15 @@ async function handler(interaction: ChatInputCommandInteraction) {
     const option = interaction.options.getString("템플릿") as string;
     const channel = client.channels.cache.get(interaction.channelId) as TextChannel;
     const time = interaction.options.getInteger("시간") || 4;
+    if(time < 1 || time > 336) {
+        const invalidTimeEmbed = new EmbedBuilder()
+            .setTitle("투표 시간이 유효하지 않습니다")
+            .setDescription("투표 시간은 1시간부터 336시간(2주) 까지 설정 가능합니다")
+            .setColor(Colors.Red);
+        await interaction.reply({ embeds: [invalidTimeEmbed], ephemeral: true });
+        return;
+    }
+    
     const allowMultiselect = interaction.options.getBoolean("다중선택") || false;
 
     const replyEmbed = new EmbedBuilder()
