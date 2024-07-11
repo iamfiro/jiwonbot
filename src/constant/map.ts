@@ -106,6 +106,112 @@ const SupportMapList: SupportMapList[] = [
         name: '비켄디 (Vikendi)',
         value: 'Vikendi',
         game: SupportGame["PUBG Default"],
+    },
+    // PUBG Custom
+    {
+        name: '소스노브카 밀리터리 베이스',
+        value: 'Sosnovka Military Base',
+        game: SupportGame["PUBG Custom"],
+    },
+    {
+        name: '스탈베르 (Stalberg)',
+        value: 'Stalberg',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '루인스 (Ruins)',
+        value: 'Ruins',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '캄포 밀리타르 (Campo Militar)',
+        value: 'Campo Militar',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '파라다이스 리조트 (Paradise Resort)',
+        value: 'Paradise Resort',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '부둣가 (Pier)',
+        value: 'Pier',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '루인스 (Ruins)',
+        value: 'Ruins',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '부트캠프 (Bootcamp)',
+        value: 'Bootcamp',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '파이난 (Finan)',
+        value: 'Finan',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '포드보스토 (Podvosto)',
+        value: 'Podvosto',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '페쉬코바 (Peshkova)',
+        value: 'Peshkova',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '고궁 (Old Palace)',
+        value: 'Old Palace',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '터미널 옆 시장 (Market next to the terminal)',
+        value: 'Cargo Storage Area',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '조선소 (Shipyard)',
+        value: 'Shipyard',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '평야 (Champaign)',
+        value: 'Champaign',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '능선 (Ridge)',
+        value: 'Ridge',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '화물보관 구역 (Cargo storage area)',
+        value: 'Cargo storage area',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '주택단지 (Housing complex)',
+        value: 'Housing complex',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '보드워크 (Boardwalk)',
+        value: 'Boardwalk',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '필라 주둔지 (Pilar Garrison)',
+        value: 'Pilar Garrison',
+        game: SupportGame['PUBG Custom']
+    },
+    {
+        name: '리아나 (Liana)',
+        value: 'Liana',
+        game: SupportGame['PUBG Custom']
     }
 ]
 
