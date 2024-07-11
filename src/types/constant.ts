@@ -24,5 +24,5 @@ interface Tier {
 }
 
 export type TierList = {
-    [key in SupportGame]: Tier[];
+    [key in SupportGame]?: Tier[];
 };
