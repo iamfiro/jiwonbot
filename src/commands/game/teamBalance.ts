@@ -112,39 +112,46 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
                             .setColor(Colors.Red)
                     ],
                 });
-                return;
+            } else {
+                const guild = client.guilds.cache.get(interaction.guildId!);
+                const redVoiceChannel = guild?.channels.cache.get(channelIds.redChannelId) as VoiceChannel;
+                const blueVoiceChannel = guild?.channels.cache.get(channelIds.blueChannelId) as VoiceChannel;
+
+                if (!redVoiceChannel) {
+                    await i.reply({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setTitle('레드팀 채널을 찾을 수 없습니다.')
+                                .setDescription('등록된 채널을 찾을 수 없습니다. \`/배정채널등록\` 명령어로 채널을 재설정해주세요.')
+                                .setColor(Colors.Red)
+                        ],
+                    });
+                }
+
+                if (!blueVoiceChannel) {
+                    await i.reply({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setTitle('블루팀 채널을 찾을 수 없습니다.')
+                                .setDescription('등록된 채널을 찾을 수 없습니다. \`/배정채널등록\` 명령어로 채널을 재설정해주세요.')
+                                .setColor(Colors.Red)
+                        ],
+                        ephemeral: true
+                    });
+                }
+
+                await handleDivideVoice(i, teamA, teamB, redVoiceChannel, blueVoiceChannel);
             }
-
-            const guild = client.guilds.cache.get(interaction.guildId!);
-            const redVoiceChannel = guild?.channels.cache.get(channelIds.redChannelId) as VoiceChannel;
-            const blueVoiceChannel = guild?.channels.cache.get(channelIds.blueChannelId) as VoiceChannel;
-
-            if (!redVoiceChannel) {
-                await i.reply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('레드팀 채널을 찾을 수 없습니다.')
-                            .setDescription('등록된 채널을 찾을 수 없습니다. \`/배정채널등록\` 명령어로 채널을 재설정해주세요.')
-                            .setColor(Colors.Red)
-                    ],
-                });
-                return;
-            }
-
-            if (!blueVoiceChannel) {
-                await i.reply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('블루팀 채널을 찾을 수 없습니다.')
-                            .setDescription('등록된 채널을 찾을 수 없습니다. \`/배정채널등록\` 명령어로 채널을 재설정해주세요.')
-                            .setColor(Colors.Red)
-                    ],
-                    ephemeral: true
-                });
-                return;
-            }
-
-            await handleDivideVoice(i, teamA, teamB, redVoiceChannel, blueVoiceChannel);
+        } else {
+            await i.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle('오류 발생')
+                        .setDescription('오류가 발생했습니다. 다시 시도해주세요.')
+                        .setColor(Colors.Red)
+                ],
+                ephemeral: true
+            });
         }
     });
 }
