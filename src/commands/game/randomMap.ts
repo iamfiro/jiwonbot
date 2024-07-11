@@ -3,6 +3,9 @@ import SupportGameList from "../../constant/game";
 import SupportMapList from "../../constant/map";
 import path from "path";
 import { getRandomElement } from "../../lib/getRandomElement";
+import Logger from "../../lib/logger";
+
+const logger = new Logger();
 
 /**
  * Handles the interaction for selecting a random map.
@@ -15,7 +18,10 @@ async function handleRandomMapCommand(interaction: ChatInputCommandInteraction) 
         return;
     }
 
+    logger.debug(`Selected game: ${selectedGame}`);
+
     const mapsForSelectedGame = SupportMapList.filter(map => map.game === selectedGame); // Filter map list by game
+    logger.debug(`Map list: ${mapsForSelectedGame}`)
     const selectedMap = getRandomElement(mapsForSelectedGame);
 
     if (!selectedMap) {
@@ -24,22 +30,31 @@ async function handleRandomMapCommand(interaction: ChatInputCommandInteraction) 
     }
 
     const mapName = selectedMap.value.toLowerCase();
-    const mapFilePath = path.join(__dirname, `../../images/map/${selectedGame.toLowerCase()}/${mapName}/map.webp`);
-    const bannerFilePath = path.join(__dirname, `../../images/map/${selectedGame.toLowerCase()}/${mapName}/banner.webp`);
 
-    const mapAttachment = new AttachmentBuilder(mapFilePath, { name: 'map.png' });
-    const bannerAttachment = new AttachmentBuilder(bannerFilePath, { name: 'banner.png' });
+    logger.debug(`Selected map: ${mapName}`);
 
-    await interaction.reply({
-        embeds: [
-            new EmbedBuilder()
-                .setTitle("맵이 선택되었습니다")
-                .addFields([{ name: "선택된 맵", value: `🗺️ ${selectedMap.name}` }])
-                .setThumbnail('attachment://map.png')
-                .setImage('attachment://banner.png')
-        ],
-        files: [mapAttachment, bannerAttachment]
-    });
+    try {
+        const mapFilePath = path.join(__dirname, `../../images/map/${selectedGame.toLowerCase()}/${mapName}/map.webp`);
+        const bannerFilePath = path.join(__dirname, `../../images/map/${selectedGame.toLowerCase()}/${mapName}/banner.webp`);
+
+
+
+        const mapAttachment = new AttachmentBuilder(mapFilePath, { name: 'map.png' });
+        const bannerAttachment = new AttachmentBuilder(bannerFilePath, { name: 'banner.png' });
+    
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle("맵이 선택되었습니다")
+                    .addFields([{ name: "선택된 맵", value: `🗺️ ${selectedMap.name}` }])
+                    .setThumbnail('attachment://map.png')
+                    .setImage('attachment://banner.png')
+            ],
+            files: [mapAttachment, bannerAttachment]
+        });
+    } catch(e: any) {
+        logger.error(e);
+    }
 }
 
 export default {
