@@ -151,3 +151,11 @@ const handleModalSubmit = (interaction: ModalSubmitInteraction) => {
         logger.error(`Login failed: ${error}`);
     }
 })();
+
+client.on('guildCreate', guild => {
+    // 서버 추가 이벤트 처리 로직
+});
+
+client.on('guildDelete', guild => {
+    // 서버 제거 이벤트 처리 로직
+});
