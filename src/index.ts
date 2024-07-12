@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { ActivityType, AutocompleteInteraction, ButtonInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, ModalSubmitInteraction, Routes } from 'discord.js';
+import { ActivityType, AutocompleteInteraction, ButtonInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, EmbedBuilder, Message, ModalSubmitInteraction, Routes, WebhookClient } from 'discord.js';
 import Logger from "./lib/logger";
 import { client, rest } from './lib/bot';
 import { ModalHandlerListType } from './types/interactionEvent';
@@ -12,9 +12,13 @@ import { handleVoiceStateUpdate } from './events/voiceStateUpdate';
 import registerSeparateVoiceChannel from './commands/db/registerSeparateVoiceChannel';
 import poll from './commands/poll';
 import developer from './commands/developer';
+import axios from 'axios';
 
 // Logger instance 생성
 const logger = new Logger();
+
+// Webhook Client 생성
+const webhookClient = new WebhookClient({ url: process.env.WEBHOOK_URL || '' });
 
 /**
  * Register all commands and context menus with Discord API
@@ -153,9 +157,17 @@ const handleModalSubmit = (interaction: ModalSubmitInteraction) => {
 })();
 
 client.on('guildCreate', guild => {
-    // 서버 추가 이벤트 처리 로직
+    const currentGuildCount = client.guilds.cache.size;
+
+    webhookClient.send({
+        content: `지원봇이 새로운 서버에 초대되었습니다 <:tbhtroll:1261114830606172241> (서버 수 : ${currentGuildCount})`,
+    })
 });
 
 client.on('guildDelete', guild => {
-    // 서버 제거 이벤트 처리 로직
+    const currentGuildCount = client.guilds.cache.size;
+
+    webhookClient.send({
+        content: `지원봇이 서버에서 추방되었습니다 <:tbh:1261114980841816125> (서버 수 : ${currentGuildCount})`,
+    })
 });
