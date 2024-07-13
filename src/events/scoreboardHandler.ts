@@ -14,7 +14,7 @@ export async function handleScoreboardButton(interaction: Interaction): Promise<
     if (!interaction.isButton()) return;
 
     const customId = interaction.customId;
-    const [ ,action, messageId, team] = customId.split('-');
+    const [, action, messageId, team] = customId.split('-');
 
     try {
         const scoreboard = await prisma.scoreBoard.findUnique({
@@ -35,10 +35,10 @@ export async function handleScoreboardButton(interaction: Interaction): Promise<
 
             const embed = createScoreboardEmbed({
                 name: scoreboard.name,
-                red: { redName: scoreboard.redName, redScore: scoreboard.redScore},
+                red: { redName: scoreboard.redName, redScore: scoreboard.redScore },
                 blue: { blueName: scoreboard.blueName, blueScore: scoreboard.blueScore },
                 footer: `스코어보드가 종료되었습니다`
-            })
+            });
             
             await interaction.update({ components: [], embeds: [embed] });
             return;
@@ -53,10 +53,9 @@ export async function handleScoreboardButton(interaction: Interaction): Promise<
             if (action === 'increment') {
                 updatedScores[`${team}Score`] += 1;
             } else if (action === 'decrement') {
-                updatedScores[`${team}Score`] -= 1;
+                updatedScores[`${team}Score`] = Math.max(0, updatedScores[`${team}Score`] - 1);
             }
         }
-
 
         await prisma.scoreBoard.update({
             where: { messageId },
