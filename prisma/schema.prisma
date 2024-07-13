@@ -28,6 +28,7 @@ model VoiceChannel {
 model ScoreBoard {
   guildId     String @default("")
   messageId   String @default("") @unique
+  interactionId String @default("")
   
   name        String @default("")
 
