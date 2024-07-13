@@ -26,6 +26,11 @@ export async function handleScoreboardButton(interaction: Interaction): Promise<
             return;
         }
 
+        if(interaction.user.id !== scoreboard.interactionId) {
+            await interaction.reply({ content: '이 스코어보드를 수정할 권한이 없습니다.', ephemeral: true });
+        }
+
+
         logger.info(`Handling button interaction for scoreboard: ${action} ${messageId} ${team}`);
 
         if (action === 'close') {
