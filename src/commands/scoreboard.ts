@@ -6,30 +6,46 @@ import {
     Colors, 
     EmbedBuilder, 
     SlashCommandBuilder,
-    userMention, 
 } from "discord.js";
 import prisma from "../lib/prisma";
 import Logger from "../lib/logger";
+import { createButton } from "../lib/button";
+import { SCOREBOARD_BUTTON_LABELS, SCOREBOARD_ERROR_MESSAGES } from "../constant/scoreboard";
 
 const logger = new Logger();
 
+interface ScoreboardFunction {
+    name: string;
+    red: {
+        redName: string;
+        redScore: number;
+    };
+    blue: {
+        blueName: string;
+        blueScore: number;
+    };
+    footer: string;
+}
+
 /**
  * Creates an embed for the scoreboard.
- * @param {string} scoreboardName - The name of the scoreboard.
- * @param {string} redTeamName - The name of the red team.
- * @param {string} blueTeamName - The name of the blue team.
- * @param {string} userDisplayName - The display name of the user who created the scoreboard.
+ * @param {string} name - The name of the scoreboard.
+ * @param {string} redName - The name of the red team.
+ * @param {number} redScore - The score of the red team.
+ * @param {string} blueName - The name of the blue team.
+ * @param {number} blueScore - The score of the blue team.
+ * @param {string} footer - The footer text.
  * @returns {EmbedBuilder} - The constructed EmbedBuilder instance.
  */
-function createScoreboardEmbed(scoreboardName: string, redTeamName: string, blueTeamName: string, userDisplayName: string): EmbedBuilder {
+export function createScoreboardEmbed({ name, red: { redName, redScore }, blue: { blueName, blueScore }, footer }: ScoreboardFunction): EmbedBuilder {
     return new EmbedBuilder()
-        .setTitle(`${scoreboardName} 스코어보드`)
+        .setTitle(`${name} 스코어보드`)
         .setFields([
-            { name: `${redTeamName} 팀`, value: "0", inline: true },
-            { name: `${blueTeamName} 팀`, value: "0", inline: true }
+            { name: `${redName} 팀`, value: String(redScore), inline: true },
+            { name: `${blueName} 팀`, value: String(blueScore), inline: true }
         ])
-        .setFooter({ text: `${userDisplayName} 님이 스코어보드를 생성함` })
-        .setColor(Colors.Green);
+        .setFooter({ text: footer })
+        .setColor(redScore > blueScore ? Colors.Red : Colors.Blue);
 }
 
 /**
@@ -38,17 +54,13 @@ function createScoreboardEmbed(scoreboardName: string, redTeamName: string, blue
  * @returns {ActionRowBuilder<ButtonBuilder>} - The action row containing the buttons.
  */
 function createScoreboardButtons(messageId: string): ActionRowBuilder<ButtonBuilder> {
-    const incrementButton = new ButtonBuilder()
-        .setCustomId(`scoreboard-increment-${messageId}`)
-        .setLabel("점수 추가")
-        .setStyle(ButtonStyle.Success);
+    const redIncrementButton = createButton(`scoreboard-increment-${messageId}-red`, '', ButtonStyle.Danger, '<:arrowup:1261628294403457114>');
+    const redDecrementButton = createButton(`scoreboard-decrement-${messageId}-red`, '', ButtonStyle.Danger, '<:arrowdown:1261628604391886849>');
+    const blueIncrementButton = createButton(`scoreboard-increment-${messageId}-blue`, '', ButtonStyle.Primary, '<:arrowup:1261628294403457114>');
+    const blueDecrementButton = createButton(`scoreboard-decrement-${messageId}-blue`, '', ButtonStyle.Primary, '<:arrowdown:1261628604391886849>');
+    const closeButton = createButton(`scoreboard-close-${messageId}`, SCOREBOARD_BUTTON_LABELS.CLOSE, ButtonStyle.Secondary);
 
-    const decrementButton = new ButtonBuilder()
-        .setCustomId(`scoreboard-decrement-${messageId}`)
-        .setLabel("점수 빼기")
-        .setStyle(ButtonStyle.Danger);
-
-    return new ActionRowBuilder<ButtonBuilder>().addComponents(incrementButton, decrementButton);
+    return new ActionRowBuilder<ButtonBuilder>().addComponents(redIncrementButton, redDecrementButton, blueIncrementButton, blueDecrementButton, closeButton);
 }
 
 /**
@@ -60,7 +72,25 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
     const redTeamName = interaction.options.getString("레드팀이름", true);
     const blueTeamName = interaction.options.getString("블루팀이름", true);
 
-    const embed = createScoreboardEmbed(scoreboardName, redTeamName, blueTeamName, interaction.user.displayName);
+    if (!scoreboardName || !redTeamName || !blueTeamName) {
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(SCOREBOARD_ERROR_MESSAGES.CREATE_FAILURE)
+                    .setDescription(SCOREBOARD_ERROR_MESSAGES.REQUIRED_FIELDS)
+                    .setColor(Colors.Red)
+            ],
+            ephemeral: true
+        });
+        return;
+    }
+
+    const embed = createScoreboardEmbed({
+        name: scoreboardName,
+        red: { redName: redTeamName, redScore: 0 },
+        blue: { blueName: blueTeamName, blueScore: 0 },
+        footer: `${interaction.user.displayName}에 의해 생성됨`
+    });
 
     try {
         const message = await interaction.reply({ embeds: [embed] });
@@ -72,6 +102,8 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
                 redScore: 0,
                 blueScore: 0,
                 messageId: message.id,
+                name: scoreboardName,
+                interactionId: interaction.user.id,
                 guildId: interaction.guildId || ''
             }
         });
@@ -81,7 +113,7 @@ async function handler(interaction: ChatInputCommandInteraction): Promise<void> 
         await message.edit({ components: [actionRow] });
     } catch (error) {
         logger.error(`Failed to create scoreboard: ${error}`);
-        await interaction.followUp({ content: '스코어보드 생성에 실패했습니다.', ephemeral: true });
+        await interaction.followUp({ content: SCOREBOARD_ERROR_MESSAGES.CREATE_ERROR, ephemeral: true });
     }
 }
 
@@ -100,12 +132,14 @@ export default {
                 .setName("레드팀이름")
                 .setDescription("레드팀 이름을 입력해주세요")
                 .setRequired(true)
+                .setMaxLength(8)
         )
         .addStringOption(option =>
             option
                 .setName("블루팀이름")
                 .setDescription("블루팀 이름을 입력해주세요")
                 .setRequired(true)
+                .setMaxLength(8)
         ),
     handler
 };
