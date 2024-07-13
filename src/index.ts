@@ -14,6 +14,7 @@ import poll from './commands/poll';
 import developer from './commands/developer';
 import axios from 'axios';
 import scoreboard from './commands/scoreboard';
+import { handleScoreboardButton } from './events/scoreboardHandler';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -125,7 +126,8 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
  * @param {ButtonInteraction} interaction - Discord 버튼 상호작용 객체
  */
 const handleButton = (interaction: ButtonInteraction) => {
-    switch (interaction.customId) {
+    if (interaction.customId.startsWith('scoreboard')) {
+        handleScoreboardButton(interaction);
     }
 }
 
