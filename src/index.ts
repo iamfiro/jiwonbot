@@ -13,6 +13,8 @@ import registerSeparateVoiceChannel from './commands/db/registerSeparateVoiceCha
 import poll from './commands/poll';
 import developer from './commands/developer';
 import axios from 'axios';
+import scoreboard from './commands/scoreboard';
+import { handleScoreboardButton } from './events/scoreboardHandler';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -45,6 +47,7 @@ async function registerCommands(): Promise<void> {
                 registerSeparateVoiceChannel.info.toJSON(),
                 poll.info.toJSON(),
                 developer.info.toJSON(),
+                scoreboard.info.toJSON(),
             ]
         });
 
@@ -112,6 +115,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
         case '개발자':
             developer.handler(interaction);
             break;
+        case '스코어보드':
+            scoreboard.handler(interaction);
+            break;
     }
 };
 
@@ -120,7 +126,8 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
  * @param {ButtonInteraction} interaction - Discord 버튼 상호작용 객체
  */
 const handleButton = (interaction: ButtonInteraction) => {
-    switch (interaction.customId) {
+    if (interaction.customId.startsWith('scoreboard')) {
+        handleScoreboardButton(interaction);
     }
 }
 
