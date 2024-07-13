@@ -13,6 +13,7 @@ import registerSeparateVoiceChannel from './commands/db/registerSeparateVoiceCha
 import poll from './commands/poll';
 import developer from './commands/developer';
 import axios from 'axios';
+import scoreboard from './commands/scoreboard';
 
 // Logger instance 생성
 const logger = new Logger();
@@ -45,6 +46,7 @@ async function registerCommands(): Promise<void> {
                 registerSeparateVoiceChannel.info.toJSON(),
                 poll.info.toJSON(),
                 developer.info.toJSON(),
+                scoreboard.info.toJSON(),
             ]
         });
 
@@ -111,6 +113,9 @@ const handleChatInputCommand = (interaction: ChatInputCommandInteraction) => {
             break;
         case '개발자':
             developer.handler(interaction);
+            break;
+        case '스코어보드':
+            scoreboard.handler(interaction);
             break;
     }
 };
