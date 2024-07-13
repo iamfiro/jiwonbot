@@ -42,9 +42,9 @@ export function createScoreboardEmbed({ name, red: { redName, redScore }, blue: 
     return new EmbedBuilder()
         .setTitle(`${name} 스코어보드`)
         .setFields([
-            { name: `${redName} 팀`, value: `String(redScore)`, inline: true },
+            { name: `${redName} 팀`, value: String(redScore), inline: true },
             { name: 'vs', value: '대', inline: true },
-            { name: `${blueName} 팀`, value: `String(blueScore)`, inline: true }
+            { name: `${blueName} 팀`, value: String(blueScore), inline: true }
         ])
         .setFooter({ text: footer })
         .setColor(color);
