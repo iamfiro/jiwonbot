@@ -38,6 +38,7 @@ interface ScoreboardFunction {
  * @returns {EmbedBuilder} - The constructed EmbedBuilder instance.
  */
 export function createScoreboardEmbed({ name, red: { redName, redScore }, blue: { blueName, blueScore }, footer }: ScoreboardFunction): EmbedBuilder {
+    const color = redScore === blueScore ? Colors.Yellow : redScore > blueScore ? Colors.Red : Colors.Blue;
     return new EmbedBuilder()
         .setTitle(`${name} 스코어보드`)
         .setFields([
@@ -45,7 +46,7 @@ export function createScoreboardEmbed({ name, red: { redName, redScore }, blue: 
             { name: `${blueName} 팀`, value: String(blueScore), inline: true }
         ])
         .setFooter({ text: footer })
-        .setColor(redScore > blueScore ? Colors.Red : Colors.Blue);
+        .setColor(color);
 }
 
 /**
