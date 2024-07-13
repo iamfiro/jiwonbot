@@ -68,7 +68,7 @@ export async function handleScoreboardButton(interaction: Interaction): Promise<
             name: scoreboard.name,
             red: { redName: scoreboard.redName, redScore: updatedScores.redScore },
             blue: { blueName: scoreboard.blueName, blueScore: updatedScores.blueScore },
-            footer: `${originalUser.username}에 의해 생성됨`
+            footer: `${originalUser.displayName}에 의해 생성됨`
         });
 
         await interaction.update({ embeds: [embed] });
