@@ -24,3 +24,16 @@ model VoiceChannel {
   redChannel String @default("")
   blueChannel String @default("")
 }
+
+model ScoreBoard {
+  guildId     String @default("")
+  messageId   String @default("") @unique
+  
+  name        String @default("")
+
+  redName     String @default("")
+  blueName    String @default("")
+
+  redScore    Int    @default(0)
+  blueScore   Int    @default(0)
+}
