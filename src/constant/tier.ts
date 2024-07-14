@@ -20,10 +20,13 @@ const GameTierList: TierList = {
         { label: '다이아몬드 1', value: 'Diamond 1', weight: 16, emoji: '<:Diamond_1_Rank:1260065977886834729>' },
         { label: '다이아몬드 2', value: 'Diamond 2', weight: 17, emoji: '<:Diamond_2_Rank:1260065979577274428>' },
         { label: '다이아몬드 3', value: 'Diamond 3', weight: 18, emoji: '<:Diamond_3_Rank:1260065981431021642>' },
-        { label: '불멸 1', value: 'Immortal 1', weight: 19, emoji: '<:Immortal_1_Rank:1260068935571607603>' },
-        { label: '불멸 2', value: 'Immortal 2', weight: 20, emoji: '<:Immortal_2_Rank:1260065992902709350>' },
-        { label: '불멸 3', value: 'Immortal 3', weight: 21, emoji: '<:Immortal_3_Rank:1260065994554998794>' },
-        { label: '레디언트', value: 'Radiant', weight: 22, emoji: '<:Radiant_Rank:1260066013509320715>' }
+        { label: '초월자 1', value: 'Ascendant 1', weight: 19, emoji: '<:Ascendant_1_Rank:1260065965236813945>' },
+        { label: '초월자 2', value: 'Ascendant 2', weight: 20, emoji: '<:Ascendant_2_Rank:1260065967707389973>' },
+        { label: '초월자 3', value: 'Ascendant 3', weight: 21, emoji: '<:Ascendant_3_Rank:1260065970081239081>' },
+        { label: '불멸 1', value: 'Immortal 1', weight: 22, emoji: '<:Immortal_1_Rank:1260068935571607603>' },
+        { label: '불멸 2', value: 'Immortal 2', weight: 23, emoji: '<:Immortal_2_Rank:1260065992902709350>' },
+        { label: '불멸 3', value: 'Immortal 3', weight: 24, emoji: '<:Immortal_3_Rank:1260065994554998794>' },
+        { label: '레디언트', value: 'Radiant', weight: 25, emoji: '<:Radiant_Rank:1260066013509320715>' }
     ],
     'League of Legends': [
         { label: '아이언 IV', value: 'Iron IV', weight: 1, emoji: '<:Iron:1260066729804038156>' },

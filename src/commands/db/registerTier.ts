@@ -7,7 +7,7 @@ import {
     StringSelectMenuBuilder, 
     StringSelectMenuOptionBuilder 
 } from "discord.js";
-import { SupportGame } from "../../types/constant";
+import { SupportGame, Tier } from "../../types/constant";
 import GameTierList from "../../constant/tier";
 import Logger from "../../lib/logger";
 import prisma from "../../lib/prisma";
@@ -59,7 +59,7 @@ function createPaginationButtons(currentPage: number, totalPages: number) {
  */
 async function handler(interaction: ChatInputCommandInteraction) {
     const selectGame = interaction.options.getString('게임') as SupportGame;
-    const TierList = GameTierList[selectGame];
+    const TierList: Tier[] = GameTierList[selectGame];
     const groupSize = 10; // Define the size of each group
     const stringSelectMenuOptions: StringSelectMenuOptionBuilder[] = TierList.map(tier => 
         new StringSelectMenuOptionBuilder().setLabel(tier.label).setValue(tier.value).setEmoji(tier.emoji)

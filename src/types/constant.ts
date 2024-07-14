@@ -16,7 +16,7 @@ export interface SupportMapList {
     game: SupportGame;
 }
 
-interface Tier {
+export interface Tier {
     label: string;
     value: string;
     weight: number;
