@@ -7,8 +7,9 @@ const valorantTierPoints: Record<string, number> = {
     'Gold 1': 10, 'Gold 2': 11, 'Gold 3': 12,
     'Platinum 1': 13, 'Platinum 2': 14, 'Platinum 3': 15,
     'Diamond 1': 16, 'Diamond 2': 17, 'Diamond 3': 18,
-    'Immortal 1': 19, 'Immortal 2': 20, 'Immortal 3': 21,
-    'Radiant': 22
+    'Ascendant 1': 19, 'Ascendant 2': 20, 'Ascendant 3': 21,
+    'Immortal 1': 22, 'Immortal 2': 23, 'Immortal 3': 24,
+    'Radiant': 25
 };
 
 const lolTierPoints: Record<string, number> = {
@@ -45,6 +46,6 @@ export function balanceTeams(players: BalancePlayer[], game: SupportGameTier): {
             teamAScore += playerScore;
         }
     }
-
+    
     return { teamA, teamB };
 }
