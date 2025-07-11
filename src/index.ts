@@ -1,4 +1,4 @@
-import { client } from './core/bot';
+import { client } from '@/core/bot';
 
 import 'dotenv/config';
 import eventHandler from './core/eventHandler';

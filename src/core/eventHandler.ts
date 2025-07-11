@@ -8,7 +8,7 @@ const eventHandler = (client: Client) => {
   console.log(`🔍 Found ${eventFolders.length} event folders.`);
 
   for (const eventFolder of eventFolders) {
-    const eventFiles = getAllFiles(eventFolder, false);
+    const eventFiles = getAllFiles(eventFolder);
     eventFiles.sort((a, b) => a.localeCompare(b));
 
     for (const eventFile of eventFiles) {

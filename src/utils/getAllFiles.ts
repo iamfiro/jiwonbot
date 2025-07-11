@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const getAllFiles = (directory: string, foldersOnly = true) => {
+const getAllFiles = (directory: string, foldersOnly = false) => {
 	let fileNames: string[] = [];
 
 	const files = fs.readdirSync(directory, { withFileTypes: true });
@@ -9,12 +9,16 @@ const getAllFiles = (directory: string, foldersOnly = true) => {
 	for (const file of files) {
 		const filePath = path.join(directory, file.name);
 
-		if (foldersOnly) {
-			if (file.isDirectory()) {
+		if (file.isDirectory()) {
+			if (foldersOnly) {
 				fileNames.push(filePath);
-			}
+			} else {
+        fileNames = fileNames.concat(getAllFiles(filePath, false));
+      }
 		} else {
-			fileNames.push(filePath);
+      if(file.name.endsWith('.ts') || file.name.endsWith('.js')) {
+        fileNames.push(filePath);
+      }
 		}
 	}
 

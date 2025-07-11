@@ -3,13 +3,12 @@ import path from 'path';
 
 import { Command } from '@/types/command';
 import getAllFiles from '@/utils/getAllFiles';
+import { pathToFileURL } from 'url';
 
 export const commandHandler = async (client: Client) => {
 	const commands = new Collection<string, Command>();
-	const commandFiles = await getAllFiles(
-		path.join(__dirname, '../commands'),
-		false
-	);
+	const commandFiles = await getAllFiles(path.join(__dirname, '../commands'));
+  console.log('🔍 Command files:', commandFiles);
 
 	const commandData = [];
 
