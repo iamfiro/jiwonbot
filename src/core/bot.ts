@@ -17,6 +17,4 @@ export const client = new Client({
         Partials.Reaction,
         Partials.User,
     ]
-})
-
-export const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN!);
+});
