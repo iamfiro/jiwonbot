@@ -3,7 +3,10 @@ import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "
 export default {
     info: new SlashCommandBuilder()
         .setName("ping")
-        .setDescription("Replies with Pong!"),
+        .setDescription("Replies with Pong with latency information!")
+        .setDescriptionLocalizations({
+            "ko": "봇의 현재 Ping을 알려드려요!",
+        }),
     execute: async (interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply();
 
