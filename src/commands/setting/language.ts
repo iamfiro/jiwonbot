@@ -1,5 +1,5 @@
 import { getGuildLanguage, setGuildLanguage } from '@/database/language';
-import { EmbedError } from '@/fragments/base/error';
+import { EmbedError } from '@/fragments/error/error';
 import { EmbedLanguage } from '@/fragments/setting/language';
 import { SupportedLanguage } from '@/utils/language';
 import prisma from '@/utils/prisma';

@@ -1,0 +1,1 @@
+export type StringOption = { name: string, value: string }

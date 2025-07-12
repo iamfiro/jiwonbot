@@ -1,21 +1,21 @@
 import { Colors, EmbedBuilder } from 'discord.js';
-import { BaseEmbed } from './baseEmbed';
+import { BaseFragment } from './base/baseEmbed';
 
 interface Args {
-  apiLatency: number;
-  messageLatency: number;
-  userTag: string;
-  userAvatar: string;
+	apiLatency: number;
+	messageLatency: number;
+	userTag: string;
+	userAvatar: string;
 }
 
-export class EmbedPing extends BaseEmbed {
+export class EmbedPing extends BaseFragment {
 	async create({
-    apiLatency,
+		apiLatency,
 		messageLatency,
 		userTag,
-		userAvatar
-  }: Args): Promise<EmbedBuilder> {
-    await this.ensureInitialized()
+		userAvatar,
+	}: Args): Promise<EmbedBuilder> {
+		await this.ensureInitialized();
 
 		return new EmbedBuilder()
 			.setColor(Colors.Blue)
@@ -32,7 +32,7 @@ export class EmbedPing extends BaseEmbed {
 					inline: true,
 				}
 			)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${userTag}`, iconURL: userAvatar });
+			.setTimestamp()
+			.setFooter({ text: `Requested by ${userTag}`, iconURL: userAvatar });
 	}
 }

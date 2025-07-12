@@ -1,7 +1,7 @@
 import { getGuildLanguage } from "@/database/language";
 import { createLangFunction, SupportedLanguage } from "@/utils/language";
 
-export abstract class BaseEmbed {
+export abstract class BaseFragment {
     protected guildId: string;
     protected language: SupportedLanguage;
     protected t: (key: string) => string;
