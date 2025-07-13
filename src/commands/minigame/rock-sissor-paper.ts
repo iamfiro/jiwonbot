@@ -23,6 +23,7 @@ export default {
 				.setDescriptionLocalizations({
 					ko: '가위바위보를 할 상대방을 선택하세요',
 				})
+                .setRequired(true)
 		),
 	execute: async (interaction: ChatInputCommandInteraction) => {
         console.log(interaction.guildId!)
