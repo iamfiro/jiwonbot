@@ -4,6 +4,8 @@ interface LanguageStrings {
 	[key: string]: string | LanguageStrings;
 }
 
+export type TemplateVariables = Record<string, string | number>
+
 const translation: Record<SupportedLanguage, LanguageStrings> = {
 	en: {
     error: {
@@ -27,6 +29,21 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
       random_map: {
         selected: '🎲 Map selected',
         selected_map: 'Selected Map',
+      },
+      rsp: {
+        cannot_alone: '❌ You cannot play Rock Paper Scissors with yourself',
+        cannot_bot: '❌ You cannot play Rock Paper Scissors with a bot',
+        game_title: '🎮 Rock Paper Scissors',
+        result_label: 'Result',
+        choices: {
+            rock: 'Rock',
+            paper: 'Paper',
+            scissors: 'Scissors'
+        },
+        result: {
+            tie: '🤝 It\'s a tie!',
+            win: '🎉 {winner} wins!'
+        }
       }
 		},
     game: {
@@ -64,6 +81,21 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
       random_map: {
         selected: '🎲 맵이 선택되었습니다',
         selected_map: '선택된 맵',
+      },
+      rsp: {
+        cannot_alone: '❌ 가위바위보는 자기 자신과 할 수 없어요',
+        cannot_bot: '❌ 가위바위보는 로봇과 할 수 없어요',
+        game_title: '🎮 가위바위보',
+        result_label: '결과',
+        choices: {
+            rock: '바위',
+            paper: '보',
+            scissors: '가위'
+        },
+        result: {
+            tie: '🤝 무승부!',
+            win: '🎉 {winner}님이 승리!'
+        }
       }
 		},
     game: {
@@ -83,7 +115,8 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 
 export function getTranslation(
 	language: SupportedLanguage,
-	key: string
+	key: string,
+  variables?: TemplateVariables
 ): string {
 	const keys = key.split('.');
 	let current: any = translation[language];
@@ -105,11 +138,21 @@ export function getTranslation(
     }
 	}
 
-  return typeof current === 'string' ? current : `[Invaild: ${key}]`
+  if(typeof current !== 'string') {
+    return `[Invalid: ${key}]`
+  }
+
+  if(variables) {
+    return current.replace(/\{(\w+)\}/g, (match, variableName) => {
+      return variables[variableName]?.toString() || match;
+    })
+  }
+
+  return current
 }
 
 export function createLangFunction(guildLanguage: SupportedLanguage) {
-  return (key: string): string => {
-    return getTranslation(guildLanguage, key)
+  return (key: string, variables?: TemplateVariables): string => {
+    return getTranslation(guildLanguage, key, variables)
   }
 }
