@@ -1,4 +1,4 @@
-import { EmbedRSP } from '@/fragments/minigame/rock-sissor-paper';
+import { EmbedRSP } from '@/fragments/minigame/rock-scissor-paper';
 import {
 	ChatInputCommandInteraction,
 	MessageFlags,
