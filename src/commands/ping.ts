@@ -24,7 +24,7 @@ export default {
 			apiLatency: Math.round(interaction.client.ws.ping),
 			messageLatency: latency,
 			userTag: interaction.user.tag,
-			userAvatar: interaction.user.displayAvatarURL()
+			userAvatar: interaction.user.displayAvatarURL(),
 		});
 
 		await interaction.editReply({

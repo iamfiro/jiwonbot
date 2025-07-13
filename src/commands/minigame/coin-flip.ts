@@ -18,20 +18,20 @@ export default {
 	execute: async (interaction: ChatInputCommandInteraction) => {
 		const coin = Math.floor(Math.random() * 2) == 0 ? 'heads' : 'tails';
 
-        await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle('Flipping a coin...')
-                    .setColor(Colors.Yellow)
-                    .setFooter({
-                        text: 'Please wait...',
-                        iconURL: interaction.user.displayAvatarURL(),
-                    }),
-            ]
-        });
+		await interaction.reply({
+			embeds: [
+				new EmbedBuilder()
+					.setTitle('Flipping a coin...')
+					.setColor(Colors.Yellow)
+					.setFooter({
+						text: 'Please wait...',
+						iconURL: interaction.user.displayAvatarURL(),
+					}),
+			],
+		});
 
-        // 1.5 seconds delay to simulate coin flip
-        await new Promise(resolve => setTimeout(resolve, 1500));
+		// 1.5 seconds delay to simulate coin flip
+		await new Promise((resolve) => setTimeout(resolve, 1500));
 
 		await interaction.editReply({
 			embeds: [
@@ -39,10 +39,10 @@ export default {
 					.setTitle(`🪙 ${coin} !`)
 					.setDescription('Coin Flip')
 					.setColor(Colors.Yellow)
-                    .setFooter({
-                        text: `Flipped by ${interaction.user.tag}`,
-                        iconURL: interaction.user.displayAvatarURL(),
-                    }),
+					.setFooter({
+						text: `Flipped by ${interaction.user.tag}`,
+						iconURL: interaction.user.displayAvatarURL(),
+					}),
 			],
 		});
 	},

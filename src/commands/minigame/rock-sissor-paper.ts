@@ -23,10 +23,10 @@ export default {
 				.setDescriptionLocalizations({
 					ko: '가위바위보를 할 상대방을 선택하세요',
 				})
-                .setRequired(true)
+				.setRequired(true)
 		),
 	execute: async (interaction: ChatInputCommandInteraction) => {
-        console.log(interaction.guildId!)
+		console.log(interaction.guildId!);
 		const targetUser = interaction.options.getUser('user') as User;
 		const challenger = interaction.user;
 
@@ -46,35 +46,35 @@ export default {
 			});
 		}
 
-        const choices = ['rock', 'paper', 'scissors'];
+		const choices = ['rock', 'paper', 'scissors'];
 
-        const challengerChoice = Math.floor(Math.random() * 3);
-        const targetChoice = Math.floor(Math.random() * 3);
+		const challengerChoice = Math.floor(Math.random() * 3);
+		const targetChoice = Math.floor(Math.random() * 3);
 
-        let result: 'tie' | 'challenger' | 'target';
+		let result: 'tie' | 'challenger' | 'target';
 
-        if(challengerChoice === targetChoice) {
-            result = 'tie';
-        } else if (
-            (challengerChoice === 0 && targetChoice === 2) || // Rock vs Scissors
-            (challengerChoice === 1 && targetChoice === 0) || // Paper vs Rock
-            (challengerChoice === 2 && targetChoice === 1)    // Scissors vs Paper
-        ) {
-            result = 'challenger';
-        } else {
-            result = 'target';
-        }
+		if (challengerChoice === targetChoice) {
+			result = 'tie';
+		} else if (
+			(challengerChoice === 0 && targetChoice === 2) || // Rock vs Scissors
+			(challengerChoice === 1 && targetChoice === 0) || // Paper vs Rock
+			(challengerChoice === 2 && targetChoice === 1) // Scissors vs Paper
+		) {
+			result = 'challenger';
+		} else {
+			result = 'target';
+		}
 
-        const gameResult = await embed.gameResult(
-            challenger,
-            targetUser,
-            choices[challengerChoice],
-            choices[targetChoice],
-            result
-        );
+		const gameResult = await embed.gameResult(
+			challenger,
+			targetUser,
+			choices[challengerChoice],
+			choices[targetChoice],
+			result
+		);
 
-        await interaction.reply({
-            embeds: [gameResult]
-        });
+		await interaction.reply({
+			embeds: [gameResult],
+		});
 	},
 };
