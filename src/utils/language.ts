@@ -62,6 +62,26 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					'No tier information has been registered yet.\nUse `/register-tier` command to register your tier!',
 				footer: 'Tier information',
 			},
+			tier_register: {
+				title: '{emoji} {game} Tier Registration',
+				description:
+					'Hello {user}! Please select your {game} tier.\nPage {currentPage} of {totalPages}',
+				footer: 'Please select your tier from the menu below',
+				select_placeholder: 'Select your tier...',
+				prev_page: 'Previous',
+				next_page: 'Next',
+				success_title: '✅ Tier Registration Complete!',
+				success_description:
+					"{user}'s {game} {gameEmoji} tier has been registered as {tierEmoji} {tierLabel}!",
+				success_footer:
+					'You can change your tier anytime with the same command.',
+				timeout_title: '⏰ Time expired',
+				timeout_description:
+					'Tier registration has timed out. Please try the command again.',
+				error_title: '❌ Error occurred',
+				error_description:
+					'An error occurred during tier registration. Please try again.',
+			},
 			balance_team: {
 				errors: {
 					not_in_voice: 'Not in Voice Channel',
@@ -192,7 +212,7 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 				title: '🎮 {user}님의 티어 정보',
 				description: '등록된 티어 정보입니다:',
 				no_tier:
-					'아직 등록된 티어 정보가 없습니다.\n`/register-tier` 명령어를 사용해서 티어를 등록해주세요!',
+					'아직 등록된 티어 정보가 없습니다.\n`/register-tier or /티어등록` 명령어를 사용해서 티어를 등록해주세요!',
 				footer: '티어 정보',
 			},
 			balance_team: {
@@ -253,6 +273,25 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					respect_teammates: '🤜🤛 팀원을 존중하고 건설적인 피드백을 주세요.',
 					stay_focused: '🎯 게임에 집중하고 산만한 것들을 피하세요.',
 				},
+			},
+			tier_register: {
+				title: '{emoji} {game} 티어 등록',
+				description:
+					'안녕하세요 {user}님! {game} 티어를 선택해주세요.\n{currentPage}페이지 / 총 {totalPages}페이지',
+				footer: '아래 메뉴에서 티어를 선택해주세요',
+				select_placeholder: '티어를 선택하세요...',
+				prev_page: '이전',
+				next_page: '다음',
+				success_title: '✅ 티어 등록 완료!',
+				success_description:
+					'{user}님의 {game} {gameEmoji} 티어가 {tierEmoji} {tierLabel}로 등록되었습니다!',
+				success_footer: '언제든지 같은 명령어로 티어를 변경할 수 있습니다.',
+				timeout_title: '⏰ 시간 초과',
+				timeout_description:
+					'티어 등록 시간이 초과되었습니다. 다시 명령어를 실행해주세요.',
+				error_title: '❌ 오류 발생',
+				error_description:
+					'티어 등록 중 오류가 발생했습니다. 다시 시도해주세요.',
 			},
 		},
 		game: {

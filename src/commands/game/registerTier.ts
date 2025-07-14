@@ -4,7 +4,7 @@ import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "
 
 export default {
     info: new SlashCommandBuilder()
-        .setName('tier-register')
+        .setName('register-tier')
         .setNameLocalizations({
             ko: '티어등록'
         })
