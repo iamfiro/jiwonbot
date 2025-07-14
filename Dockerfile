@@ -32,26 +32,4 @@ RUN npx prisma generate
 RUN npm install typescript
 RUN npm run build
 
-# 프로덕션 스테이지
-FROM base AS production
-
-# 빌드된 파일 복사
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/prisma ./prisma
-
-# 이미지 파일이 있다면 복사 (랜덤 맵 기능용)
-COPY --from=build /app/images ./images
-
-# 비루트 사용자 생성 및 권한 설정
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S discord -u 1001
-RUN chown -R discord:nodejs /app
-USER discord
-
-# 헬스체크 추가
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD node -e "console.log('Bot is running')" || exit 1
-
-# 앱 시작
-CMD ["npm", "start"]
+RUN npm run start
