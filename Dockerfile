@@ -29,6 +29,7 @@ COPY . .
 RUN npx prisma generate
 
 # TypeScript 컴파일
+RUN npm i tsc
 RUN npm run build
 
 # 프로덕션 스테이지
