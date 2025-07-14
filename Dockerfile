@@ -49,9 +49,6 @@ RUN adduser -S discord -u 1001
 RUN chown -R discord:nodejs /app
 USER discord
 
-# 포트 노출 (필요시)
-EXPOSE 3000
-
 # 헬스체크 추가
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD node -e "console.log('Bot is running')" || exit 1
