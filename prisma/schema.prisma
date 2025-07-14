@@ -24,8 +24,15 @@ model GuildBotLanguage {
   @@map("languages")
 }
 
-model Tier {
-  userId      String   @default("") @unique
-  valorantTier        String  @default("")
-  lolTier             String  @default("")
+model UserGameTier {
+  id     Int    @id @default(autoincrement())
+  userId String  // Discord 사용자 ID
+  game   String  // 'Valorant' 또는 'League of Legends'
+  tier   String  // 사용자의 티어 (예: 'Gold 2', 'Diamond 1')
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, game])  // 한 사용자는 게임당 하나의 티어만 가질 수 있음
+  @@map("user_game_tiers")
 }

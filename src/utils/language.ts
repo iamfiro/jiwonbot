@@ -55,24 +55,73 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					tails: 'Tails',
 				},
 			},
-			tier_register: {
-				title: '{emoji} {game} Tier Registration',
-				description:
-					"Please select {user}'s {game} tier.\n\n📄 **Page:** {currentPage} / {totalPages}\n⏰ **Time limit:** 60 seconds",
-				select_placeholder: '🛡️ Please select your tier',
-				prev_page: 'Previous Page',
-				next_page: 'Next Page',
-				footer: 'Your tier will be used for team balancing',
-				success_title: '✅ Tier Registration Complete!',
-				success_description:
-					"{user}'s {game} tier has been successfully registered.\n\n{gameEmoji} **Game:** {game}\n{tierEmoji} **Tier:** {tierLabel}\n\nYou can now use the team balancing system!",
-				success_footer: 'Try registering tiers for other games too!',
-				timeout_title: '⏰ Time Expired',
-				timeout_description:
-					'Tier selection time has expired.\nPlease use the command again to register your tier.',
-				error_title: '❌ Error Occurred',
-				error_description:
-					'An error occurred while registering your tier.\nPlease try again later.',
+			tier_info: {
+				title: "🎮 {user}'s Tier Information",
+				description: 'Here are the registered tier information:',
+				no_tier:
+					'No tier information has been registered yet.\nUse `/register-tier` command to register your tier!',
+				footer: 'Tier information',
+			},
+			balance_team: {
+				errors: {
+					not_in_voice: 'Not in Voice Channel',
+					not_in_voice_desc:
+						'You must be in a voice channel or specify a voice channel to balance teams.',
+					not_enough_players: 'Not Enough Players',
+					not_enough_players_desc:
+						'Need at least {minimum} players for team balancing. Currently {current} players found.',
+					too_many_players: 'Too Many Players',
+					too_many_players_desc:
+						'Maximum {maximum} players supported. Currently {current} players found.',
+				},
+				partial_result: 'Partial Team Balance Result',
+				unregistered_players_desc:
+					"Some players haven't registered their game tier yet. Please register to get balanced teams.",
+				balance_failed: 'Team Balance Failed',
+				teams_balanced: 'Teams Successfully Balanced!',
+				balance_desc:
+					'Teams have been balanced for **{channel}** voice channel using **{game}** tier system.',
+				game_info: 'Game',
+				voice_channel: 'Voice Channel',
+				total_players: 'Total Players',
+				team_a: 'Team A',
+				team_b: 'Team B',
+				total_score: 'Total Score',
+				avg_score: 'Average Score',
+				balance_info: 'Balance Information',
+				score_diff: 'Score Difference',
+				balance_grade: 'Balance Grade',
+				quality_score: 'Quality Score',
+				unregistered_players: 'Unregistered Players',
+				register_tier_hint:
+					'Use /register-tier command to register your game tier',
+				regenerate_hint:
+					'Run the command again to regenerate teams with different composition',
+				game_tip: 'Game Tip',
+				grades: {
+					perfect: 'Perfect',
+					excellent: 'Excellent',
+					good: 'Good',
+					acceptable: 'Acceptable',
+					poor: 'Poor',
+				},
+				tips: {
+					communication:
+						'🗣️ Good communication is key to victory! Use voice chat effectively.',
+					warm_up:
+						'🔥 Warm up before playing ranked games to perform at your best.',
+					positive_attitude:
+						'😊 Keep a positive attitude even when losing - it helps team morale.',
+					learn_from_mistakes:
+						'📚 Learn from your mistakes and review your gameplay to improve.',
+					team_coordination:
+						'🤝 Coordinate with your team and play for objectives, not just kills.',
+					practice_together:
+						'🎯 Practice together as a team to build better synergy.',
+					respect_teammates:
+						'🤜🤛 Respect your teammates and give constructive feedback.',
+					stay_focused: '🎯 Stay focused on the game and avoid distractions.',
+				},
 			},
 		},
 		game: {
@@ -85,6 +134,9 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 			},
 			csgo: {
 				name: 'Counter Strike : Global Offensive',
+			},
+			league_of_legends: {
+				name: 'League of Legends',
 			},
 		},
 	},
@@ -136,24 +188,71 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					tails: '뒷면',
 				},
 			},
-			tier_register: {
-				title: '{emoji} {game} 티어 등록',
-				description:
-					'{user}님의 {game} 티어를 선택해주세요.\n\n📄 **페이지:** {currentPage} / {totalPages}\n⏰ **제한시간:** 60초',
-				select_placeholder: '🛡️ 티어를 선택해주세요',
-				prev_page: '이전 페이지',
-				next_page: '다음 페이지',
-				footer: '티어 선택 후 팀 밸런싱에 사용됩니다',
-				success_title: '✅ 티어 등록 완료!',
-				success_description:
-					'{user}님의 {game} 티어가 성공적으로 등록되었습니다.\n\n{gameEmoji} **게임:** {game}\n{tierEmoji} **티어:** {tierLabel}\n\n이제 팀 밸런싱 시스템에서 사용할 수 있습니다!',
-				success_footer: '다른 게임의 티어도 등록해보세요!',
-				timeout_title: '⏰ 시간 초과',
-				timeout_description:
-					'티어 선택 시간이 초과되었습니다.\n다시 명령어를 사용해서 티어를 등록해주세요.',
-				error_title: '❌ 오류 발생',
-				error_description:
-					'티어 등록 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.',
+			tier_info: {
+				title: '🎮 {user}님의 티어 정보',
+				description: '등록된 티어 정보입니다:',
+				no_tier:
+					'아직 등록된 티어 정보가 없습니다.\n`/register-tier` 명령어를 사용해서 티어를 등록해주세요!',
+				footer: '티어 정보',
+			},
+			balance_team: {
+				errors: {
+					not_in_voice: '음성 채널에 참여 안함',
+					not_in_voice_desc:
+						'팀 밸런싱을 위해서는 음성 채널에 참여하거나 특정 음성 채널을 지정해야 합니다.',
+					not_enough_players: '플레이어 부족',
+					not_enough_players_desc:
+						'팀 밸런싱을 위해서는 최소 {minimum}명의 플레이어가 필요합니다. 현재 {current}명이 있습니다.',
+					too_many_players: '플레이어 초과',
+					too_many_players_desc:
+						'최대 {maximum}명까지 지원됩니다. 현재 {current}명이 있습니다.',
+				},
+				partial_result: '부분 팀 밸런스 결과',
+				unregistered_players_desc:
+					'일부 플레이어가 아직 게임 티어를 등록하지 않았습니다. 밸런싱된 팀을 얻으려면 티어를 등록해주세요.',
+				balance_failed: '팀 밸런스 실패',
+				teams_balanced: '팀 밸런싱 완료!',
+				balance_desc:
+					'**{channel}** 음성 채널의 팀이 **{game}** 티어 시스템으로 밸런싱되었습니다.',
+				game_info: '게임',
+				voice_channel: '음성 채널',
+				total_players: '총 플레이어',
+				team_a: 'A팀',
+				team_b: 'B팀',
+				total_score: '총 점수',
+				avg_score: '평균 점수',
+				balance_info: '밸런스 정보',
+				score_diff: '점수 차이',
+				balance_grade: '밸런스 등급',
+				quality_score: '품질 점수',
+				unregistered_players: '미등록 플레이어',
+				register_tier_hint:
+					'/register-tier 명령어를 사용해서 게임 티어를 등록하세요',
+				regenerate_hint:
+					'명령어를 다시 실행하면 다른 구성으로 팀을 재생성할 수 있습니다',
+				game_tip: '게임 팁',
+				grades: {
+					perfect: '완벽',
+					excellent: '우수',
+					good: '양호',
+					acceptable: '수용가능',
+					poor: '불량',
+				},
+				tips: {
+					communication:
+						'🗣️ 좋은 소통이 승리의 열쇠입니다! 음성 채팅을 효과적으로 활용하세요.',
+					warm_up: '🔥 랭크 게임 전에 워밍업을 해서 최고의 실력을 발휘하세요.',
+					positive_attitude:
+						'😊 지더라도 긍정적인 태도를 유지하세요 - 팀 사기에 도움이 됩니다.',
+					learn_from_mistakes:
+						'📚 실수로부터 배우고 게임플레이를 리뷰해서 실력을 향상시키세요.',
+					team_coordination:
+						'🤝 팀과 협력하고 킬보다는 오브젝트를 위해 플레이하세요.',
+					practice_together:
+						'🎯 팀으로 함께 연습해서 더 나은 시너지를 구축하세요.',
+					respect_teammates: '🤜🤛 팀원을 존중하고 건설적인 피드백을 주세요.',
+					stay_focused: '🎯 게임에 집중하고 산만한 것들을 피하세요.',
+				},
 			},
 		},
 		game: {
@@ -166,6 +265,9 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 			},
 			csgo: {
 				name: '카운터스트라이크: 글로벌 오펜시브',
+			},
+			league_of_legends: {
+				name: '리그 오브 레전드',
 			},
 		},
 	},

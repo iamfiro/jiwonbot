@@ -1,4 +1,3 @@
-import { setUserTier } from '@/database/tier-register';
 import {
 	ActionRowBuilder,
 	ButtonBuilder,
@@ -17,12 +16,18 @@ import { BaseFragment } from '../base/baseEmbed';
 import { SupportGameTier } from '@/constants/game';
 import { GameTierList } from '@/constants/tier';
 import { SupportedLanguage } from '@/utils/language';
+import { setUserTier } from '@/database/tier-register';
 
 interface TierSelectionState {
 	currentPage: number;
 	totalPages: number;
 	tierGroups: StringSelectMenuOptionBuilder[][];
 	selectedGame: SupportGameTier;
+}
+
+interface TierData {
+	game: string;
+	tier: string;
 }
 
 export class EmbedTierRegister extends BaseFragment {
@@ -58,6 +63,55 @@ export class EmbedTierRegister extends BaseFragment {
 			embeds: [embed],
 			components,
 		};
+	}
+
+	async tierInfo({
+		user,
+		tierData,
+	}: {
+		user: User;
+		tierData: TierData[];
+	}): Promise<EmbedBuilder> {
+		await this.ensureInitialized();
+
+		const embed = new EmbedBuilder()
+			.setColor(Colors.Blue)
+			.setTitle(this.t('components.tier_info.title', { user: user.displayName }))
+			.setThumbnail(user.displayAvatarURL())
+			.setTimestamp();
+
+		if (tierData.length === 0) {
+			embed
+				.setDescription(this.t('components.tier_info.no_tier'))
+				.setColor(Colors.Orange);
+		} else {
+			// 각 게임별 티어 정보 추가
+			tierData.forEach((data) => {
+				const gameEmoji = data.game === 'Valorant' ? '🔫' : '⚔️';
+				const gameDisplayName = this.t(`game.${data.game.toLowerCase().replace(' ', '_')}.name`);
+				
+				// 티어에 맞는 이모지 찾기
+				const tierList = GameTierList[data.game as SupportGameTier];
+				const tierInfo = tierList?.find(tier => tier.value === data.tier);
+				const tierEmoji = tierInfo?.emoji || '🎖️';
+				const tierLabel = tierInfo?.label[this.language] || data.tier;
+
+				embed.addFields({
+					name: `${gameEmoji} ${gameDisplayName}`,
+					value: `${tierEmoji} ${tierLabel}`,
+					inline: true,
+				});
+			});
+
+			embed.setDescription(this.t('components.tier_info.description'));
+		}
+
+		embed.setFooter({
+			text: this.t('components.tier_info.footer'),
+			iconURL: user.displayAvatarURL(),
+		});
+
+		return embed;
 	}
 
 	async handleInteractions(
