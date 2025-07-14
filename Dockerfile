@@ -32,4 +32,7 @@ RUN npx prisma generate
 RUN npm install typescript
 RUN npm run build
 
+# 프로덕션 스테이지
+FROM base AS production
+
 RUN npm run start
