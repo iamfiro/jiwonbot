@@ -10,3 +10,8 @@ export enum RandomMapEnum {
 	'PUBG Custom' = 'PUBG Custom',
 	CS2 = 'Counter Strike 2',
 }
+
+export enum SupportGameTier {
+    Valorant = 'Valorant',
+    'League of Legends' = 'League of Legends'
+}
