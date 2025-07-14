@@ -8,6 +8,7 @@
     "start": "tsc && node dist/index.js",
     "build": "tsc",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
+    "dev:prod": "ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
