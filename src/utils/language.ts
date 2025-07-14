@@ -124,24 +124,7 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					good: 'Good',
 					acceptable: 'Acceptable',
 					poor: 'Poor',
-				},
-				tips: {
-					communication:
-						'🗣️ Good communication is key to victory! Use voice chat effectively.',
-					warm_up:
-						'🔥 Warm up before playing ranked games to perform at your best.',
-					positive_attitude:
-						'😊 Keep a positive attitude even when losing - it helps team morale.',
-					learn_from_mistakes:
-						'📚 Learn from your mistakes and review your gameplay to improve.',
-					team_coordination:
-						'🤝 Coordinate with your team and play for objectives, not just kills.',
-					practice_together:
-						'🎯 Practice together as a team to build better synergy.',
-					respect_teammates:
-						'🤜🤛 Respect your teammates and give constructive feedback.',
-					stay_focused: '🎯 Stay focused on the game and avoid distractions.',
-				},
+				}
 			},
 		},
 		game: {
@@ -257,22 +240,7 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					good: '양호',
 					acceptable: '수용가능',
 					poor: '불량',
-				},
-				tips: {
-					communication:
-						'🗣️ 좋은 소통이 승리의 열쇠입니다! 음성 채팅을 효과적으로 활용하세요.',
-					warm_up: '🔥 랭크 게임 전에 워밍업을 해서 최고의 실력을 발휘하세요.',
-					positive_attitude:
-						'😊 지더라도 긍정적인 태도를 유지하세요 - 팀 사기에 도움이 됩니다.',
-					learn_from_mistakes:
-						'📚 실수로부터 배우고 게임플레이를 리뷰해서 실력을 향상시키세요.',
-					team_coordination:
-						'🤝 팀과 협력하고 킬보다는 오브젝트를 위해 플레이하세요.',
-					practice_together:
-						'🎯 팀으로 함께 연습해서 더 나은 시너지를 구축하세요.',
-					respect_teammates: '🤜🤛 팀원을 존중하고 건설적인 피드백을 주세요.',
-					stay_focused: '🎯 게임에 집중하고 산만한 것들을 피하세요.',
-				},
+				}
 			},
 			tier_register: {
 				title: '{emoji} {game} 티어 등록',
