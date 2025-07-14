@@ -1,0 +1,58 @@
+
+# Node.js
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript 빌드 결과
+dist
+*.tsbuildinfo
+
+# 로그
+logs
+*.log
+
+# 환경 변수 파일
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE 파일
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker 파일
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# 테스트 파일
+coverage
+*.test.js
+*.test.ts
+src/tests
+
+# 기타 개발 도구
+.eslintcache
+.nyc_output
+
+# README 및 문서
+README.md
+*.md
+
+# Prisma
+prisma/migrations
+.env.example
