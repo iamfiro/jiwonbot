@@ -55,31 +55,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # 개발용 봇 서비스 (옵션)
-  jiwonbot-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev-dependencies
-    container_name: jiwonbot_dev
-    restart: "no"
-    environment:
-      - NODE_ENV=development
-      - BOT_TOKEN=${DEV_BOT_TOKEN}
-      - DISCORD_CLIENT_ID=${DEV_DISCORD_CLIENT_ID}
-      - DATABASE_URL=${DEV_DATABASE_URL}
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - ./images:/app/images:ro
-    command: npm run dev
-    depends_on:
-      - database
-    networks:
-      - bot_network
-    profiles:
-      - dev
-
 networks:
   bot_network:
     driver: bridge
