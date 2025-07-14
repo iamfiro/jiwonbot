@@ -23,3 +23,9 @@ model GuildBotLanguage {
 
   @@map("languages")
 }
+
+model Tier {
+  userId      String   @default("") @unique
+  valorantTier        String  @default("")
+  lolTier             String  @default("")
+}
