@@ -109,6 +109,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "baseUrl": "."
-  }
+    "baseUrl": ".",
+  },
+  "exclude": ["src/generated"]
 }
