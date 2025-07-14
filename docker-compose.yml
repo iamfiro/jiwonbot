@@ -45,7 +45,7 @@ services:
       # 초기 설정 SQL 파일이 있다면
       - ./prisma/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
-      - "5432:5432"
+      - "1502:1052"
     networks:
       - bot_network
     # 헬스체크 추가
