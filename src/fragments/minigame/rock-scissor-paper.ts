@@ -3,6 +3,8 @@ import { BaseFragment } from '../base/baseEmbed';
 
 export class EmbedRSP extends BaseFragment {
 	async cannotAlone(): Promise<EmbedBuilder> {
+		await this.ensureInitialized();
+
 		return new EmbedBuilder()
 			.setTitle(this.t('components.rsp.cannot_alone'))
 			.setColor(Colors.Red)
@@ -10,6 +12,8 @@ export class EmbedRSP extends BaseFragment {
 	}
 
 	async cannotBot(): Promise<EmbedBuilder> {
+		await this.ensureInitialized();
+
 		return new EmbedBuilder()
 			.setTitle(this.t('components.rsp.cannot_bot'))
 			.setColor(Colors.Red)
@@ -23,6 +27,8 @@ export class EmbedRSP extends BaseFragment {
 		targetChoice: string,
 		result: 'tie' | 'challenger' | 'target'
 	): Promise<EmbedBuilder> {
+		await this.ensureInitialized();
+		
 		const emojis = {
 			rock: '🪨',
 			paper: '📄',
@@ -51,7 +57,7 @@ export class EmbedRSP extends BaseFragment {
 				break;
 			case 'target':
 				resultText = this.t('components.rsp.result.win', {
-					winner: challenger.displayName,
+					winner: target.displayName,
 				});
 
 				color = Colors.Blue;

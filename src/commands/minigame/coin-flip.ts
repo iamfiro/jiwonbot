@@ -1,7 +1,6 @@
+import { EmbedCoinFlip } from '@/fragments/minigame/coin-flip';
 import {
 	ChatInputCommandInteraction,
-	Colors,
-	EmbedBuilder,
 	SlashCommandBuilder,
 } from 'discord.js';
 
@@ -17,33 +16,16 @@ export default {
 		}),
 	execute: async (interaction: ChatInputCommandInteraction) => {
 		const coin = Math.floor(Math.random() * 2) == 0 ? 'heads' : 'tails';
+		const embed = new EmbedCoinFlip(interaction.guildId!);
 
 		await interaction.reply({
-			embeds: [
-				new EmbedBuilder()
-					.setTitle('Flipping a coin...')
-					.setColor(Colors.Yellow)
-					.setFooter({
-						text: 'Please wait...',
-						iconURL: interaction.user.displayAvatarURL(),
-					}),
-			],
+			embeds: [await embed.flipping(interaction.user)],
 		});
 
-		// 1.5 seconds delay to simulate coin flip
 		await new Promise((resolve) => setTimeout(resolve, 1500));
 
 		await interaction.editReply({
-			embeds: [
-				new EmbedBuilder()
-					.setTitle(`🪙 ${coin} !`)
-					.setDescription('Coin Flip')
-					.setColor(Colors.Yellow)
-					.setFooter({
-						text: `Flipped by ${interaction.user.tag}`,
-						iconURL: interaction.user.displayAvatarURL(),
-					}),
-			],
+			embeds: [await embed.result(coin, interaction.user)],
 		});
 	},
 };

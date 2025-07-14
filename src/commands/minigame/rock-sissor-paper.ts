@@ -26,7 +26,6 @@ export default {
 				.setRequired(true)
 		),
 	execute: async (interaction: ChatInputCommandInteraction) => {
-		console.log(interaction.guildId!);
 		const targetUser = interaction.options.getUser('user') as User;
 		const challenger = interaction.user;
 

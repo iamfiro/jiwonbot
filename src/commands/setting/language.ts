@@ -2,6 +2,7 @@ import { getGuildLanguage, setGuildLanguage } from '@/database/language';
 import { EmbedError } from '@/fragments/error/error';
 import { EmbedLanguage } from '@/fragments/setting/language';
 import { SupportedLanguage } from '@/utils/language';
+import { languageManager } from '@/utils/language-manager';
 import prisma from '@/utils/prisma';
 import {
 	ChatInputCommandInteraction,
@@ -43,6 +44,8 @@ export default {
 
 		try {
 			await setGuildLanguage(interaction.guildId!, selectedLanguage);
+
+			languageManager.setGuildLanguage(interaction.guildId!, selectedLanguage);
 
 			const embed = await new EmbedLanguage(interaction.guildId!).ChangeSuccess(
 				{

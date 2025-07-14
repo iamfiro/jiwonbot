@@ -44,7 +44,17 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
             tie: '🤝 It\'s a tie!',
             win: '🎉 {winner} wins!'
         }
-      }
+      },
+      coin_flip: {
+				title: 'Coin Flip',
+				flipping: 'Flipping a coin...',
+				please_wait: 'Please wait...',
+				flipped_by: 'Flipped by {user}',
+				result: {
+					heads: 'Heads',
+					tails: 'Tails'
+				}
+			},
 		},
     game: {
       custom_map: 'Custom',
@@ -96,7 +106,17 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
             tie: '🤝 무승부!',
             win: '🎉 {winner}님이 승리!'
         }
-      }
+      },
+      coin_flip: {
+				title: '동전 던지기',
+				flipping: '동전을 던지는 중...',
+				please_wait: '잠시만 기다려주세요...',
+				flipped_by: '{user}님이 던진 동전',
+				result: {
+					heads: '앞면',
+					tails: '뒷면'
+				}
+			},
 		},
     game: {
       custom_map: '사설맵',
@@ -125,6 +145,7 @@ export function getTranslation(
 		if (current && typeof current === 'object') {
       current = current[k]
 		} else {
+      console.log(false, k)
       // fallback if key not found
       current = translation['en'];
       for (const fallbackKey of keys) {
