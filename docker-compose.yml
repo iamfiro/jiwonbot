@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Discord Bot 서비스
   jiwonbot:
     build:
       context: .
@@ -15,23 +14,12 @@ services:
       - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
-      # 이미지 파일 볼륨 (랜덤 맵 기능용)
       - ./images:/app/images:ro
-      # 로그 볼륨 (선택사항)
-      - bot_logs:/app/logs
     depends_on:
       - database
     networks:
       - bot_network
-    # 메모리 제한 설정
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-        reservations:
-          memory: 256M
 
-  # 데이터베이스 서비스 (PostgreSQL 예시)
   database:
     image: postgres:15-alpine
     container_name: jiwonbot_db
@@ -42,18 +30,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/postgresql/data
-      # 초기 설정 SQL 파일이 있다면
-      - ./prisma/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    ports:
-      - "1502:1052"
     networks:
       - bot_network
-    # 헬스체크 추가
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-jiwonbot}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 networks:
   bot_network:
@@ -61,6 +39,4 @@ networks:
 
 volumes:
   db_data:
-    driver: local
-  bot_logs:
     driver: local
