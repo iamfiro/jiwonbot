@@ -28,8 +28,8 @@ COPY . .
 # Prisma 클라이언트 생성
 RUN npx prisma generate
 
-# TypeScript 컴파일
-RUN npm i tsc
+# TypeScript 컴파일러 설치 (tsc 대신 typescript 패키지 설치)
+RUN npm install typescript
 RUN npm run build
 
 # 프로덕션 스테이지
