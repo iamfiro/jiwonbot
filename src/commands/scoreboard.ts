@@ -47,18 +47,6 @@ export default {
 				})
 				.setRequired(true)
 				.setMaxLength(15)
-		)
-		.addIntegerOption((option) =>
-			option
-				.setName('target-score')
-				.setDescriptionLocalizations({ ko: '목표점수' })
-				.setDescription('Target score to win (optional)')
-				.setDescriptionLocalizations({
-					ko: '승리하기 위한 목표 점수 (선택)',
-				})
-				.setRequired(false)
-				.setMinValue(1)
-				.setMaxValue(100)
 		),
 	execute: async (interaction: ChatInputCommandInteraction) => {
 		await interaction.deferReply();
@@ -66,7 +54,6 @@ export default {
 		const scoreboardName = interaction.options.getString('name', true);
 		const redTeamName = interaction.options.getString('red-team', true);
 		const blueTeamName = interaction.options.getString('blue-team', true);
-		const targetScore = interaction.options.getString('target-score') || null;
 		const member = interaction.member as GuildMember;
 
         const scoreboardEmbed = new EmbedScoreboard(interaction.guildId!);
