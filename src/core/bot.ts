@@ -5,7 +5,6 @@ export const client = new Client({
 		GatewayIntentBits.Guilds,           // 서버 정보 (필수)
 		GatewayIntentBits.GuildVoiceStates, // 음성 채널 정보 (team-balance 명령어에서 사용)
 		GatewayIntentBits.GuildMessagePolls,
-		GatewayIntentBits.MessageContent
 	],
 	partials: [
 		Partials.Channel,     // 채널 정보 (음성 채널 액세스에 필요)
