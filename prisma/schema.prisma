@@ -36,3 +36,21 @@ model UserGameTier {
   @@unique([userId, game])  // 한 사용자는 게임당 하나의 티어만 가질 수 있음
   @@map("user_game_tiers")
 }
+
+model ScoreBoard {
+  id          String   @id @default(cuid())
+  name        String
+  redName     String
+  blueName    String
+  redScore    Int      @default(0)
+  blueScore   Int      @default(0)
+  messageId   String   @unique
+  creatorId   String
+  guildId     String
+  isFinished  Boolean  @default(false)
+  winner      String?  // 'red', 'blue', 'tie'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("scoreboards")
+}

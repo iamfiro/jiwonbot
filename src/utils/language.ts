@@ -124,7 +124,33 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					good: 'Good',
 					acceptable: 'Acceptable',
 					poor: 'Poor',
-				}
+				},
+			},
+			scoreboard: {
+				title: '🏆 {name} Scoreboard',
+				vs: 'VS',
+				winner: '🎉 {team} Wins!',
+				tie: '🤝 Game Tied!',
+				target_score: '🎯 Target Score: {target}',
+				no_target_score: '🎮 Free Play Mode - No target score set',
+				created_by: 'Created by {creator}',
+				game_finished: 'Game finished • Created by {creator}',
+				final_score: 'Final Score',
+				timeout_title: '⏰ Scoreboard Timeout',
+				timeout_description:
+					'The scoreboard has timed out and is no longer interactive.',
+				closed_title: '🗑️ Scoreboard Closed',
+				closed_description: 'This scoreboard has been closed by the user.',
+				error_title: '❌ Error',
+				error_description:
+					'An error occurred while updating the scoreboard. Please try again.',
+				buttons: {
+					close: 'Close',
+					reset: 'Reset',
+				},
+				loading_title: 'Creating Scoreboard...',
+				loading_description:
+					'Please wait while the scoreboard is being set up.',
 			},
 		},
 		game: {
@@ -240,7 +266,7 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 					good: '양호',
 					acceptable: '수용가능',
 					poor: '불량',
-				}
+				},
 			},
 			tier_register: {
 				title: '{emoji} {game} 티어 등록',
@@ -260,6 +286,32 @@ const translation: Record<SupportedLanguage, LanguageStrings> = {
 				error_title: '❌ 오류 발생',
 				error_description:
 					'티어 등록 중 오류가 발생했습니다. 다시 시도해주세요.',
+			},
+			scoreboard: {
+				title: '🏆 {name} 스코어보드',
+				vs: '대',
+				winner: '🎉 {team} 승리!',
+				tie: '🤝 무승부!',
+				target_score: '🎯 목표 점수: {target}',
+				no_target_score: '🎮 자유 모드 - 목표 점수 없음',
+				created_by: '{creator}에 의해 생성됨',
+				game_finished: '게임 종료 • {creator}에 의해 생성됨',
+				final_score: '최종 점수',
+				timeout_title: '⏰ 스코어보드 시간 초과',
+				timeout_description:
+					'스코어보드가 시간 초과되어 더 이상 상호작용할 수 없습니다.',
+				closed_title: '🗑️ 스코어보드 닫힘',
+				closed_description: '이 스코어보드는 사용자에 의해 닫혔습니다.',
+				error_title: '❌ 오류',
+				error_description:
+					'스코어보드를 업데이트하는 중 오류가 발생했습니다. 다시 시도해주세요.',
+				buttons: {
+					close: '닫기',
+					reset: '초기화',
+				},
+				loading_title: '스코어보드 생성중...',
+				loading_description:
+					'스코어보드를 설정하는 중입니다. 잠시만 기다려주세요.',
 			},
 		},
 		game: {
